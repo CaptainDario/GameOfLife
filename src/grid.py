@@ -33,12 +33,13 @@ class Grid():
             for cX, cell in enumerate(row):
                 
                 #apply the rules
-                self.__rule1(cX, cY)
+                tmpGrid[cX][cY] = self.__rule1(cX, cY)
 
+        self.grid = deepcopy(tmpGrid)
         self.currentTime += 1
 
 
-    def __rule1(self, posX : int, posY : int):
+    def __rule1(self, posX : int, posY : int) -> int:
         """
         Function to represent the first rule:
         A dead cell with exactly three living neighbors has to be reborn.
@@ -46,13 +47,20 @@ class Grid():
         Args:
             posX : the x position of the cell 
             posY : the y position of the cell
+
+        Returns:
+            The value of the cell for the next iteration
         """
 
+        nextVal = 0
+
         #the cell needs to be dead
-        if(cell == 0):
+        if(self.grid[posX][posY] == 0):
             #exactly three neighbors have to be alive
-            if(self.__getNeighbors(posX, posY)):
-                self.grid[posX][posY] = 1
+            if(sum(self.__getNeighbors(posX, posY)) == 3):
+                nextVal = 1
+
+        return nextVal
 
 
     def __getNeighbors(self, posX : int, posY : int) -> []:
