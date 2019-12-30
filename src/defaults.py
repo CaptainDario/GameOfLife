@@ -12,7 +12,7 @@ class Defaults():
     title = name + " " + version
 
     #window 
-    wHeight, wWidth = 800, 800
+    wHeight, wWidth = 200, 200
 
     #grid-cell size
     cellHeight, cellWidth = 25, 25
