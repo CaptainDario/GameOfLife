@@ -12,7 +12,14 @@ class DrawUtil():
         Draws a rect with an outline.
 
         Args:
-
+            screen 
+            bColor
+            fColor
+            posX
+            posY
+            height
+            width
+            bWidth
         """
         
         #draw outline rect 
