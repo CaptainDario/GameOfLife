@@ -8,7 +8,7 @@ class Defaults():
 
     #Game info
     name = "Game Of Life"
-    version = "v0.0.1"
+    version = "v0.0.2"
     title = name + " " + version
 
     #window 
