@@ -33,17 +33,22 @@ while not done:
 
     # --- Game logic should go here
 
-    #USER INPUT
-    #add alive cell
-    if(pygame.mouse.get_pressed()[0] == True):
-        grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
-                 [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 1
- 
-    #remove alive cell
-    if(pygame.mouse.get_pressed()[2] == True):
-        grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
-                 [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 0
+    #USER INPUT (only if time == 0)
 
+    if(grid.currentTime == 0):
+        #add alive cell
+        if(pygame.mouse.get_pressed()[0] == True):
+            grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
+                    [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 1
+    
+        #remove alive cell
+        if(pygame.mouse.get_pressed()[2] == True):
+            grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
+                    [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 0
+
+    #do one simulation step
+    if(pygame.mouse.get_pressed()[1] == True):
+        grid.applyRules()
 
     # --- Screen-clearing code goes here
     screen.fill(Defaults.WHITE)
