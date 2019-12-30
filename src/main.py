@@ -14,7 +14,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption(Defaults.title)
  
 # Loop until the user clicks the close button.
-done = False
+done, handled = False, False
  
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -47,8 +47,12 @@ while not done:
                     [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 0
 
     #do one simulation step
-    if(pygame.mouse.get_pressed()[1] == True):
+    if(pygame.mouse.get_pressed()[1] == True and not handled):
         grid.applyRules()
+        handled = True
+    if(pygame.mouse.get_pressed()[1] == False):
+        handled = False
+    
 
     # --- Screen-clearing code goes here
     screen.fill(Defaults.WHITE)
