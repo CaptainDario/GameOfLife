@@ -12,3 +12,5 @@ Ziele:
 * Spielbrett (Grid mit auswaelbarer Startkonfig)
 * Regeln
 * evtl. Ende
+* Tutorial
+* Menu
