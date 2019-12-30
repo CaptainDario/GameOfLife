@@ -1,5 +1,8 @@
 from copy import deepcopy
 
+from defaults import Defaults
+
+
 class Grid():
     """
     The class for storing the current game state.
@@ -10,7 +13,7 @@ class Grid():
     """
 
     def __init__(self):
-        self.defaultSize = 32
+        self.defaultSize = 8
         self.currentTime = 0
         self.grid = [[0 for j in range(self.defaultSize)] for i in range(self.defaultSize)]
 
@@ -25,8 +28,8 @@ class Grid():
         tmpGrid = deepcopy(self.grid)
 
         #iterate ove all cells
-        for cX, row in enumerate(self.grid):
-            for cY, cell in enumerate(row):
+        for cY, row in enumerate(tmpGrid):
+            for cX, cell in enumerate(row):
                 
                 #apply the rules
                 self.__rule1(cX, cY, cell)
@@ -42,5 +45,54 @@ class Grid():
         #the cell needs to be dead
         if(cell == 0):
             #exactly three neighbors have to be alive
-            if():
+            value = self.__getNeighbors(posX, posY) 
+            if(False):
                 cell = 1
+
+
+    def __getNeighbors(self, posX, posY) -> []:
+        """
+        Returns the three upper neighbors.
+
+        Returns:
+            A List containing the upper neighbors
+        """
+
+        #tmp list for all neighbors
+        neighbors = []
+
+        #UPPER
+        #upper left 
+        if(posY-1 > -1 and posX-1 > -1):
+            neighbors.append(self.grid[posX-1][posY-1])
+        #upper center
+        if(posY-1 > -1):
+            neighbors.append(self.grid[posX][posY-1])
+        #upper right
+        if(posY-1 > -1 and posX+1 < self.defaultSize):
+            neighbors.append(self.grid[posX+1][posY-1])
+
+
+        #SAME HEIGHT
+        #lower left 
+        if(posX-1 > -1):
+            neighbors.append(self.grid[posX-1][posY])
+        #lower right
+        if(posX+1 < self.defaultSize):
+            neighbors.append(self.grid[posX+1][posY])
+
+
+        #LOWER
+        #lower left 
+        if(posY+1 < self.defaultSize and posX-1 > -1):
+            neighbors.append(self.grid[posX-1][posY+1])
+        #lower center
+        if(posY+1 < self.defaultSize):
+            neighbors.append(self.grid[posX][posY+1])
+        #lower right
+        if(posY+1 < self.defaultSize and posX+1 < self.defaultSize):
+            neighbors.append(self.grid[posX+1][posY+1])
+
+        print("X:", posX,"Y:", posY, neighbors)
+
+        return neighbors
