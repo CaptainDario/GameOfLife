@@ -9,7 +9,8 @@ class Grid():
 
     attributes:
         defaultSize - default size of the grid
-        grid        - 2D array to store the board (0 - dead | 1 - alive)
+        currentTime - the current time step of the simulation (0 means that a start config needs to be drawn)
+        grid        - 2D array to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
     """
 
     def __init__(self):
@@ -32,27 +33,35 @@ class Grid():
             for cX, cell in enumerate(row):
                 
                 #apply the rules
-                self.__rule1(cX, cY, cell)
+                self.__rule1(cX, cY)
 
         self.currentTime += 1
 
 
-    def __rule1(self, posX, posY, cell):
+    def __rule1(self, posX : int, posY : int):
         """
+        Function to represent the first rule:
         A dead cell with exactly three living neighbors has to be reborn.
+
+        Args:
+            posX : the x position of the cell 
+            posY : the y position of the cell
         """
 
         #the cell needs to be dead
         if(cell == 0):
             #exactly three neighbors have to be alive
-            value = self.__getNeighbors(posX, posY) 
-            if(False):
-                cell = 1
+            if(self.__getNeighbors(posX, posY)):
+                self.grid[posX][posY] = 1
 
 
-    def __getNeighbors(self, posX, posY) -> []:
+    def __getNeighbors(self, posX : int, posY : int) -> []:
         """
         Returns the three upper neighbors.
+
+        Args:
+            posX : the x-position of the cell
+            posY : the y-position of the cell
 
         Returns:
             A List containing the upper neighbors
