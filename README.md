@@ -9,7 +9,8 @@ Mitglieder:
 
 Ziele:
 
-* Spielbrett (Grid mit auswaelbarer Startkonfig)
+* Spielbrett:
+- (Grid mit auswaelbarer Startkonfig)
 * Regeln
 * evtl. Ende
 * Tutorial
