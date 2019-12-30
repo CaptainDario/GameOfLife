@@ -13,4 +13,4 @@ class Grid():
         self.defaultSize = 32
         self.grid = [[0 for j in range(self.defaultSize)] for i in range(self.defaultSize)]
 
-        self.grid[13][5] = 1
+        #self.grid[13][5] = 1

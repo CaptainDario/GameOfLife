@@ -33,7 +33,18 @@ while not done:
 
     # --- Game logic should go here
 
+    #USER INPUT
+    #add alive cell
+    if(pygame.mouse.get_pressed()[0] == True):
+        grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
+                 [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 1
  
+    #remove alive cell
+    if(pygame.mouse.get_pressed()[2] == True):
+        grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
+                 [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 0
+
+
     # --- Screen-clearing code goes here
     screen.fill(Defaults.WHITE)
  
