@@ -8,11 +8,14 @@ class Defaults():
 
     #Game info
     name = "Game Of Life"
-    version = "v0.0.1"
+    version = "v0.0.2"
     title = name + " " + version
 
-    #window 
-    wHeight, wWidth = 800, 800
+    #default grid size
+    defaultGridSize = 40
 
     #grid-cell size
     cellHeight, cellWidth = 25, 25
+
+    #window 
+    wHeight, wWidth = defaultGridSize * cellHeight, defaultGridSize * cellWidth
