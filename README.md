@@ -18,7 +18,7 @@ Ziele:
         * Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der Folgegeneration am Leben. ✓
         * Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der Folgegeneration an Überbevölkerung. ✓
     * evtl. Ende
-    * Zoomen (Raster vergroessern/verkleinern)
+    * Zoomen (Raster vergroessern/verkleinern) ✓
     * bewegen (auf dem Raster hin und her bewegen):
         * unedliche Spielbrett Generierung  
  
