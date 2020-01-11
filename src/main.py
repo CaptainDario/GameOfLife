@@ -36,6 +36,16 @@ grid = Grid()
 while not done:
     # --- Main event loop
     for event in pygame.event.get():
+        #check if wheel is scrolled
+        if event.type == pygame.MOUSEBUTTONDOWN :
+            #zoom in
+            if event.button == 4:
+                Defaults.cellHeight += 1
+                Defaults.cellWidth += 1
+            #zoom out
+            if event.button == 5:
+                Defaults.cellHeight -= 1
+                Defaults.cellWidth -= 1
         if event.type == pygame.QUIT:
             done = True
  
@@ -56,17 +66,21 @@ while not done:
                 grid.grid[pygame.mouse.get_pos()[0] // Defaults.cellHeight]\
                         [pygame.mouse.get_pos()[1] // Defaults.cellWidth] = 0
 
+    #MOUSE CONTROL
+    #Do one simulation step when left clicked
     if(grid.currentTime > 0):
         #do one simulation step
         if(pygame.mouse.get_pressed()[0] == True and not handled):
             grid.applyRules()
 
+    #update the game accordingly to the set spedd
     if(isRunning):
         if(simulationSpeed - passedTime <= 0):
             grid.applyRules()
             passedTime = 0
 
-    #check menubar buttons
+
+    #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True and handled == False):
         #play/pause-button check y-pos and x-pos
         if(Defaults.stButtonPos[1] <=
