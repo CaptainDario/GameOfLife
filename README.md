@@ -28,3 +28,5 @@ Ziele:
  
 * Performance:
     * Multithreaded Generationsberechnung
+ 
+* PyInstaller excutable
