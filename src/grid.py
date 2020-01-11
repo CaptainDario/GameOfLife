@@ -1,3 +1,5 @@
+import numpy as np
+
 from copy import deepcopy
 
 from defaults import Defaults
@@ -10,13 +12,13 @@ class Grid():
     attributes:
         defaultSize - default size of the grid
         currentTime - the current time step of the simulation (0 means that a start config needs to be drawn)
-        grid        - 2D array to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
+        grid        - numpy matrix to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
     """
 
     def __init__(self):
-        self.defaultSize = 8
+        self.defaultSize = Defaults.defaultGridSize
         self.currentTime = 0
-        self.grid = [[0 for j in range(self.defaultSize)] for i in range(self.defaultSize)]
+        self.grid = np.zeros((self.defaultSize, self.defaultSize))
 
         #self.grid[13][5] = 1
 
@@ -26,16 +28,18 @@ class Grid():
         """
 
         #copy current state
-        tmpGrid = deepcopy(self.grid)
+        futureGrid = deepcopy(self.grid)
 
         #iterate ove all cells
-        for cY, row in enumerate(tmpGrid):
+        for cY, row in enumerate(futureGrid):
             for cX, cell in enumerate(row):
-                
-                #apply the rules
-                tmpGrid[cX][cY] = self.__rule1(cX, cY)
+                futureGrid[cX][cY] = 0 if self.__rule2(cX, cY) is not None else futureGrid[cX][cY]
+                futureGrid[cX][cY] = 0 if self.__rule4(cX, cY) is not None else futureGrid[cX][cY]
 
-        self.grid = deepcopy(tmpGrid)
+                futureGrid[cX][cY] = 1 if self.__rule1(cX, cY) is not None else futureGrid[cX][cY]
+                futureGrid[cX][cY] = 1 if self.__rule3(cX, cY) is not None else futureGrid[cX][cY]
+
+        self.grid = deepcopy(futureGrid)
         self.currentTime += 1
 
 
@@ -52,16 +56,85 @@ class Grid():
             The value of the cell for the next iteration
         """
 
-        nextVal = 0
+        nextVal = None
 
         #the cell needs to be dead
         if(self.grid[posX][posY] == 0):
             #exactly three neighbors have to be alive
-            if(sum(self.__getNeighbors(posX, posY)) == 3):
+            if(self.__getNeighbors(posX, posY) == 3):
                 nextVal = 1
 
         return nextVal
 
+    def __rule2(self, posX : int, posY : int) -> int:
+        """
+        Function to represent the second rule:
+        A living cell with less than two living neighbors will die because of loneliness.
+
+        Args:
+            posX : the x position of the cell 
+            posY : the y position of the cell
+
+        Returns:
+            The value of the cell for the next iteration
+        """
+
+        nextVal = None
+
+        #the cell needs to be alive
+        if(self.grid[posX][posY] == 1):
+            #exactly three neighbors have to be alive
+            if(self.__getNeighbors(posX, posY) < 2):
+                nextVal = 0
+
+        return nextVal
+
+    def __rule3(self, posX : int, posY : int) -> int:
+        """
+        Function to represent the third rule:
+        A living cell with exactly two or three living neighbors will stay a life.
+
+        Args:
+            posX : the x position of the cell 
+            posY : the y position of the cell
+
+        Returns:
+            The value of the cell for the next iteration
+        """
+
+        nextVal = None
+
+        #the cell needs to be alive
+        if(self.grid[posX][posY] == 1):
+            #exactly three neighbors have to be alive
+            if(self.__getNeighbors(posX, posY) == 2 or
+                self.__getNeighbors(posX, posY) == 3):
+                nextVal = 1
+
+        return nextVal
+
+    def __rule4(self, posX : int, posY : int) -> int:
+        """
+        Function to represent the forth rule:
+        A living cell with more than three living neighbors will die.
+
+        Args:
+            posX : the x position of the cell 
+            posY : the y position of the cell
+
+        Returns:
+            The value of the cell for the next iteration
+        """
+
+        nextVal = None
+
+        #the cell needs to be alive
+        if(self.grid[posX][posY] == 1):
+            #exactly three neighbors have to be alive
+            if(self.__getNeighbors(posX, posY) > 3):
+                nextVal = 0
+
+        return nextVal
 
     def __getNeighbors(self, posX : int, posY : int) -> []:
         """
@@ -72,7 +145,7 @@ class Grid():
             posY : the y-position of the cell
 
         Returns:
-            A List containing the upper neighbors
+            Amount of living neighbors
         """
 
         #tmp list for all neighbors
@@ -110,6 +183,18 @@ class Grid():
         if(posY+1 < self.defaultSize and posX+1 < self.defaultSize):
             neighbors.append(self.grid[posX+1][posY+1])
 
-        print("X:", posX,"Y:", posY, neighbors)
+        #print("X:", posX,"Y:", posY, neighbors)
 
-        return neighbors
+        return sum(neighbors)
+
+    def __mergeRuleMatrices(self, r1 : [[int]], r2 : [[int]], r3 : [[int]], r4 : [[int]]) -> [[int]]:
+        """
+
+
+        Args:
+
+        Returns:
+
+        """
+
+        return r1 + r2 + r3 + r4 
