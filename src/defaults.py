@@ -20,8 +20,6 @@ class Defaults():
     #grid size
     gridSize = defaultGridSize * cellHeight
 
-    #zooming
-    zoomOutLimit, zoomInLimit = 100, 3
 
     #menubar
     menubarHeight = 80
@@ -42,9 +40,12 @@ class Defaults():
     #3 - speed increase button
     spUpButtonSize = defButtonSize
     spUpButtonPos = (buttonStartPosX + gapBetweenButtons * 2, menubarHeight / 4 + gridSize)
-    # 4 - restart button
-    restartButtonSize = defButtonSize
-    restartButtonPos = (buttonStartPosX + gapBetweenButtons * 3, menubarHeight / 4 + gridSize)
+    # 4 - one-simulation-step-button
+    oneStepButtonSize = defButtonSize
+    oneStepButtonPos = (buttonStartPosX + gapBetweenButtons * 3, menubarHeight / 4 + gridSize)
+    oneStepButtonTrianglePoints = [(oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 10),
+                                (oneStepButtonPos[0] + 30, oneStepButtonPos[1] + 20),
+                                (oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 30)]
 
 
     #window 
