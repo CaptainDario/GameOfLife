@@ -20,20 +20,32 @@ class Defaults():
     #grid size
     gridSize = defaultGridSize * cellHeight
 
+    #zooming
+    zoomOutLimit, zoomInLimit = 100, 3
+
     #menubar
     menubarHeight = 80
-    #start/stop-button
-    stButtonSize = 40
-    stButtonPos = (gridSize / 2 - stButtonSize / 2, menubarHeight / 4 + gridSize)
+    defButtonSize = 40
+    buttonAmount = 4
+    gapBetweenButtons = defButtonSize + defButtonSize / 10
+    buttonStartPosX = (gridSize / 2) - (buttonAmount * gapBetweenButtons) / 2
+
+    # 1 - speed decrease button
+    spDownButtonSize = defButtonSize
+    spDownButtonPos = (buttonStartPosX + gapBetweenButtons * 0, menubarHeight / 4 + gridSize)
+    # 2 - start/stop-button
+    stButtonSize = defButtonSize
+    stButtonPos = (buttonStartPosX + gapBetweenButtons * 1, menubarHeight / 4 + gridSize)
     stButtonTrianglePoints = [(stButtonPos[0] + 10, stButtonPos[1] + 10),
                             (stButtonPos[0] + 30, stButtonPos[1] + 20),
                             (stButtonPos[0] + 10, stButtonPos[1] + 30)]
-    #speed increase button
-    spUpButtonSize = 40
-    spUpButtonPos = (gridSize / 2 - spUpButtonSize / 2 + 100, menubarHeight / 4 + gridSize)
-    #speed button
-    spDownButtonSize = 40
-    spDownButtonPos = (gridSize / 2 - spDownButtonSize / 2 - 100, menubarHeight / 4 + gridSize)
+    #3 - speed increase button
+    spUpButtonSize = defButtonSize
+    spUpButtonPos = (buttonStartPosX + gapBetweenButtons * 2, menubarHeight / 4 + gridSize)
+    # 4 - restart button
+    restartButtonSize = defButtonSize
+    restartButtonPos = (buttonStartPosX + gapBetweenButtons * 3, menubarHeight / 4 + gridSize)
+
 
     #window 
     wHeight, wWidth = gridSize, gridSize + menubarHeight

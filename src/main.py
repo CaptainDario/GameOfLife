@@ -31,21 +31,29 @@ clock = pygame.time.Clock()
 #instantiate grid
 grid = Grid()
 
+
+
  
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
     for event in pygame.event.get():
         #check if wheel is scrolled
-        if event.type == pygame.MOUSEBUTTONDOWN :
-            #zoom in
-            if event.button == 4:
-                Defaults.cellHeight += 1
-                Defaults.cellWidth += 1
+        if event.type == pygame.MOUSEBUTTONDOWN:
             #zoom out
+            if event.button == 4:
+                #only until certain zoom factor
+                if Defaults.cellHeight < Defaults.zoomOutLimit and \
+                   Defaults.cellWidth < Defaults.zoomOutLimit:
+                    Defaults.cellHeight += 1
+                    Defaults.cellWidth += 1
+            #zoom in
             if event.button == 5:
-                Defaults.cellHeight -= 1
-                Defaults.cellWidth -= 1
+                #only if it is not to small
+                if Defaults.cellHeight > Defaults.zoomInLimit and \
+                   Defaults.cellWidth > Defaults.zoomInLimit:
+                    Defaults.cellHeight -= 1
+                    Defaults.cellWidth -= 1
         if event.type == pygame.QUIT:
             done = True
  
@@ -69,11 +77,11 @@ while not done:
     #MOUSE CONTROL
     #Do one simulation step when left clicked
     if(grid.currentTime > 0):
-        #do one simulation step
-        if(pygame.mouse.get_pressed()[0] == True and not handled):
+        #do one simulation step (ASSIGN THIS TO THE ONE STEP BUTTON)
+        if(pygame.mouse.get_pressed()[0] == True and not handled and True == False):
             grid.applyRules()
 
-    #update the game accordingly to the set spedd
+    #update the game accordingly to the set speed
     if(isRunning):
         if(simulationSpeed - passedTime <= 0):
             grid.applyRules()
@@ -153,7 +161,11 @@ while not done:
                                 Defaults.spUpButtonSize, Defaults.spUpButtonSize, 2)
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, Defaults.spDownButtonPos[0] + 5, Defaults.spDownButtonPos[1] + 15,
                                 30, 10, 2)
-    
+    #draw the reload button
+    DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.restartButtonPos[0], Defaults.spDownButtonPos[1],
+                                Defaults.spUpButtonSize, Defaults.spUpButtonSize, 2)
+
+
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
