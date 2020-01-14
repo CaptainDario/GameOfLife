@@ -22,6 +22,7 @@ Ziele:
         * Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der Folgegeneration an Überbevölkerung. ✓
     * Zoomen (Raster vergroessern/verkleinern) ✓
     * bewegen (auf dem Raster hin und her bewegen):
+        * auf dem spielfeld hin- und her bewegen ✓
         * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
  
 * UI:
