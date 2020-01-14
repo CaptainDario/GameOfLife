@@ -24,23 +24,31 @@ Ziele:
         * auf dem spielfeld hin- und her bewegen ✓
         * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
  
-* UI:
+* UI (_grafische Benutzeroberflaeche_):
     * (Tutorial)
     * Main menu:
-        * board laden
-        * zufaelliges board
-        * selber board erstellen board
-    * Menubar:
+        * neues Spiel:   
+            * board laden
+            * zufaelliges board
+            * selber board erstellen board:
+                * Systemgroesse
+                * Randbedingungen
+                * Anfangsbedingungen
+                * Regel-string
+    * Menubar (_event gesteuerte Programmierung_):
         * play/pause ✓
         * neues Spiel button 
         * einen Schritt-weiter-button
         * zoom in/out button ✓
         * neues Spiel Button
  
-* Performance:
+* Performance (_Geschwindigkeitsoptimierung_):
     * Multithreaded Generationsberechnung
  
 * PyInstaller executable:
     * windows
     * Linux 
     * MacOS
+     
+* Abgabe:
+    * Demonstration mit interessanten Beispielen
