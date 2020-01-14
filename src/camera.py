@@ -9,7 +9,7 @@ class Camera():
     """
 
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, currentZoom):
         self.width = width
         self.height = height
 
@@ -17,6 +17,7 @@ class Camera():
         self.pos = (0, 0)
 
         #zooming
+        self.currentZoom = currentZoom
         self.zoomOutLimit = 100
         self.zoomInLimit = 3
 

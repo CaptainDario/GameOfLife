@@ -35,7 +35,7 @@ passedTime = 0
 clock = pygame.time.Clock()
 
 #instantiate grid and camera
-grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight)
+grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight, Defaults.cellHeight)
 
 
 
