@@ -23,18 +23,18 @@ Ziele:
     * bewegen (auf dem Raster hin und her bewegen):
         * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
  
-* User interface:
+* UI:
     * (Tutorial)
     * Main menu:
-        * load board
-        * random board
-        * define board
+        * board laden
+        * zufaelliges board
+        * selber board erstellen board
     * Menubar:
         * play/pause ✓
-        * new game button 
-        * single step button
+        * neues Spiel button 
+        * einen Schritt-weiter-button
         * zoom in/out button ✓
-    * Restart Button
+        * neues Spiel Button
  
 * Performance:
     * Multithreaded Generationsberechnung
