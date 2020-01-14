@@ -6,7 +6,7 @@ Mitglieder:
 * Louis Donath 798279
 
 
-This is an implementation of Conway's "Game of Life".
+Eine Implementierung von Conway's "Game of Life".
 
 Ziele:
 

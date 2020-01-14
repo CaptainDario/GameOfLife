@@ -7,7 +7,7 @@ Mitglieder:
 * Dario Klepoch 793525
 
 
-This is an implementation of Conway's "Game of Life".
+Eine Implementierung von Conway's "Game of Life".
 
 Ziele:
 
