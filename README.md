@@ -6,9 +6,11 @@ Mitglieder:
 * Louis Donath 798279
 
 
+This is an implementation of Conway's "Game of Life".
+
 Ziele:
 
-* Spiel
+* Spiel:
     * Spielbrett:
         * Grid (unedliche Generieung, wenn die Objekte sich bewegen)
         * auswaelbarer Startkonfig ✓
@@ -19,14 +21,25 @@ Ziele:
         * Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der Folgegeneration an Überbevölkerung. ✓
     * Zoomen (Raster vergroessern/verkleinern) ✓
     * bewegen (auf dem Raster hin und her bewegen):
-        * unedliche Spielbrett Generierung  
+        * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
  
 * User interface:
-    * Tutorial
-    * Menu ✓
+    * (Tutorial)
+    * Main menu:
+        * load board
+        * random board
+        * define board
+    * Menubar:
+        * play/pause ✓
+        * new game button 
+        * single step button
+        * zoom in/out button ✓
     * Restart Button
  
 * Performance:
     * Multithreaded Generationsberechnung
  
-* PyInstaller excutable
+* PyInstaller executable:
+    * windows
+    * Linux 
+    * MacOS
