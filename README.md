@@ -26,7 +26,6 @@ Ziele:
         * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
  
 * UI (_grafische Benutzeroberflaeche_):
-    * (Tutorial)
     * Main menu:
         * neues Spiel:   
             * board laden:
@@ -39,6 +38,8 @@ Ziele:
                 * Randbedingungen
                 * Anfangsbedingungen
                 * Regel-string
+            * Tutorial:
+                * Erklaerung der Tastenbelegungen
     * Menubar (_event gesteuerte Programmierung_):
         * play/pause ✓
         * neues Spiel button 
