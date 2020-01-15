@@ -1,4 +1,3 @@
-
 class Defaults():
     # Define some colors
     BLACK = (0, 0, 0)
@@ -8,7 +7,7 @@ class Defaults():
 
     #Game info
     name = "Game Of Life"
-    version = "v0.2"
+    version = "v0.2.1"
     title = name + " " + version
 
     #default grid size
