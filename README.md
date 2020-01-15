@@ -58,3 +58,6 @@ Ziele:
      
 * Abgabe:
     * Demonstration mit interessanten Beispielen
+    
+* optional:
+    * Hintergrundmusik
