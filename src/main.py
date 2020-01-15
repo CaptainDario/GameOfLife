@@ -99,33 +99,40 @@ while not done:
     if(pygame.mouse.get_pressed()[0] == True and handled == False):
         #play/pause-button check y-pos and x-pos
         if(Defaults.stButtonPos[1] <=
-            pygame.mouse.get_pos()[1] <=
-            Defaults.stButtonPos[1] + Defaults.stButtonSize and
-            Defaults.stButtonPos[0] <=
-            pygame.mouse.get_pos()[0] <=
-            Defaults.stButtonPos[0] + Defaults.stButtonSize):
+           pygame.mouse.get_pos()[1] <=
+           Defaults.stButtonPos[1] + Defaults.stButtonSize and
+           Defaults.stButtonPos[0] <=
+           pygame.mouse.get_pos()[0] <=
+           Defaults.stButtonPos[0] + Defaults.stButtonSize):
             isRunning = not isRunning
         #speed-up-button
         if(Defaults.spUpButtonPos[1] <=
-            pygame.mouse.get_pos()[1] <=
-            Defaults.spUpButtonPos[1] + Defaults.spUpButtonSize and
-            Defaults.spUpButtonPos[0] <=
-            pygame.mouse.get_pos()[0] <=
-            Defaults.spUpButtonPos[0] + Defaults.spUpButtonSize):
+           pygame.mouse.get_pos()[1] <=
+           Defaults.spUpButtonPos[1] + Defaults.spUpButtonSize and
+           Defaults.spUpButtonPos[0] <=
+           pygame.mouse.get_pos()[0] <=
+           Defaults.spUpButtonPos[0] + Defaults.spUpButtonSize):
             
             if(simulationSpeed - speedSteps > 0):
-                print(simulationSpeed)
                 simulationSpeed -= speedSteps
         #speed-down-button
         if(Defaults.spDownButtonPos[1] <=
-            pygame.mouse.get_pos()[1] <=
-            Defaults.spDownButtonPos[1] + Defaults.spDownButtonSize and
-            Defaults.spDownButtonPos[0] <=
-            pygame.mouse.get_pos()[0] <=
-            Defaults.spDownButtonPos[0] + Defaults.spDownButtonSize):
-            
-            print(simulationSpeed)
+           pygame.mouse.get_pos()[1] <=
+           Defaults.spDownButtonPos[1] + Defaults.spDownButtonSize and
+           Defaults.spDownButtonPos[0] <=
+           pygame.mouse.get_pos()[0] <=
+           Defaults.spDownButtonPos[0] + Defaults.spDownButtonSize):
             simulationSpeed += speedSteps
+        #one-step-button
+        if(Defaults.oneStepButtonPos[1] <=
+           pygame.mouse.get_pos()[1] <=
+           Defaults.oneStepButtonPos[1] + Defaults.oneStepButtonSize and
+           Defaults.oneStepButtonPos[0] <=
+           pygame.mouse.get_pos()[0] <=
+           Defaults.oneStepButtonPos[0] + Defaults.oneStepButtonSize):
+            if(isRunning == False):
+                grid.applyRules()
+
 
     #set handled
     if(pygame.mouse.get_pressed()[0] == True and not handled):
@@ -140,7 +147,7 @@ while not done:
             passedTime = 0
 
     #Clear the screen
-    screen.fill(Defaults.WHITE)
+    screen.fill(Defaults.BLACK)
  
 
     # --- Drawing code should go here
@@ -157,6 +164,10 @@ while not done:
                                             cX * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
                                             cY * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
                                             Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
+
+    #draw a white rect for the menubar (draw over the grid if it is moved)
+    DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,
+                                Defaults.gridSize, Defaults.menubarHeight, 2)
     #Draw play/stop-button
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.stButtonPos[0], Defaults.stButtonPos[1],
                                         Defaults.stButtonSize, Defaults.stButtonSize, 2)
@@ -181,6 +192,7 @@ while not done:
     #draw the one-step-button
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.oneStepButtonPos[0], Defaults.oneStepButtonPos[1],
                                 Defaults.oneStepButtonSize, Defaults.oneStepButtonSize, 2)
+    pygame.draw.rect(screen, Defaults.BLACK, ((Defaults.oneStepButtonPos[0] + 10, Defaults.oneStepButtonPos[1] + 15), (10, 10)))
     pygame.draw.polygon(screen, Defaults.BLACK, Defaults.oneStepButtonTrianglePoints)
 
 
