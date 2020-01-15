@@ -29,7 +29,10 @@ Ziele:
     * (Tutorial)
     * Main menu:
         * neues Spiel:   
-            * board laden
+            * board laden:
+                * defaults (_interessante Beispiele_)
+                * eigenes board
+            * board speichern
             * zufaelliges board
             * selber board erstellen board:
                 * Systemgroesse
