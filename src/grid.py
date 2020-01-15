@@ -16,9 +16,9 @@ class Grid():
     """
 
     def __init__(self):
-        self.defaultSize = Defaults.defaultGridSize
+        self.currentSize = Defaults.defaultGridSize
         self.currentTime = 0
-        self.grid = np.zeros((self.defaultSize, self.defaultSize))
+        self.grid = np.zeros((self.currentSize, self.currentSize))
 
         #self.grid[13][5] = 1
 
@@ -159,7 +159,7 @@ class Grid():
         if(posY-1 > -1):
             neighbors.append(self.grid[posX][posY-1])
         #upper right
-        if(posY-1 > -1 and posX+1 < self.defaultSize):
+        if(posY-1 > -1 and posX+1 < self.currentSize):
             neighbors.append(self.grid[posX+1][posY-1])
 
 
@@ -168,19 +168,19 @@ class Grid():
         if(posX-1 > -1):
             neighbors.append(self.grid[posX-1][posY])
         #lower right
-        if(posX+1 < self.defaultSize):
+        if(posX+1 < self.currentSize):
             neighbors.append(self.grid[posX+1][posY])
 
 
         #LOWER
         #lower left 
-        if(posY+1 < self.defaultSize and posX-1 > -1):
+        if(posY+1 < self.currentSize and posX-1 > -1):
             neighbors.append(self.grid[posX-1][posY+1])
         #lower center
-        if(posY+1 < self.defaultSize):
+        if(posY+1 < self.currentSize):
             neighbors.append(self.grid[posX][posY+1])
         #lower right
-        if(posY+1 < self.defaultSize and posX+1 < self.defaultSize):
+        if(posY+1 < self.currentSize and posX+1 < self.currentSize):
             neighbors.append(self.grid[posX+1][posY+1])
 
         #print("X:", posX,"Y:", posY, neighbors)
