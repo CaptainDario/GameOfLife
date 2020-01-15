@@ -9,7 +9,7 @@ class Camera():
     """
 
 
-    def __init__(self, width, height, currentZoom):
+    def __init__(self, width, height):
         self.width = width
         self.height = height
 
@@ -17,9 +17,9 @@ class Camera():
         self.pos = (0, 0)
 
         #zooming
-        self.currentZoom = currentZoom
-        self.zoomOutLimit = 100
-        self.zoomInLimit = 3
+        self.currentZoom = 0
+        self.zoomOutLimit = 30 
+        self.zoomInLimit = -7
 
 
     def setPos(self, newPos : (int, int)):
@@ -31,3 +31,19 @@ class Camera():
         """
 
         self.pos = newPos
+
+    def zoomIn(self):
+        """
+        Zoom in (make the grid larger) only if a certain zoom limit is not reached.
+        """
+
+        if(self.currentZoom > self.zoomInLimit):
+            self.currentZoom -= 1
+    
+    def zoomOut(self):
+        """
+        Zoom in (make the grid larger) only if a certain zoom limit is not reached.
+        """
+
+        if(self.currentZoom < self.zoomOutLimit):
+            self.currentZoom += 1
