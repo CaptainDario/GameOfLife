@@ -35,7 +35,8 @@ passedTime = 0
 clock = pygame.time.Clock()
 
 #instantiate grid and camera
-grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight, Defaults.cellHeight)
+grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight)
+
 
 
 
@@ -49,18 +50,11 @@ while not done:
         if event.type == pygame.MOUSEBUTTONDOWN:
             #zoom out
             if event.button == 4:
-                #only until certain zoom factor
-                if Defaults.cellHeight < camera.zoomOutLimit and \
-                   Defaults.cellWidth < camera.zoomOutLimit:
-                    Defaults.cellHeight += 1
-                    Defaults.cellWidth += 1
+                print(camera.currentZoom)
+                camera.zoomOut()
             #zoom in
             if event.button == 5:
-                #only if it is not to small
-                if Defaults.cellHeight > camera.zoomInLimit and \
-                   Defaults.cellWidth > camera.zoomInLimit:
-                    Defaults.cellHeight -= 1
-                    Defaults.cellWidth -= 1
+                camera.zoomIn()
         if event.type == pygame.QUIT:
             done = True
  
@@ -82,17 +76,24 @@ while not done:
     
     #INITIALIZE BOARD
     if(grid.currentTime == 0):
-        #check that the cursor is not out of range
-        if(0 <= pygame.mouse.get_pos()[1] - camera.pos[1] < Defaults.gridSize and \
-           0 <= pygame.mouse.get_pos()[0] - camera.pos[0] < Defaults.gridSize):
-            #add alive cell
+        # check that the cursor is not out of range
+        # the absolute position of the mouse needs to be shifted by the amount the grid was moved
+        currentRelativeMouseX = pygame.mouse.get_pos()[1] - camera.pos[1]
+        currentRelativeMouseY = pygame.mouse.get_pos()[0] - camera.pos[0]
+        # the position also needs to be shifted by the zoom factor (zoomed in/out)
+        relCellHeight = Defaults.cellHeight + camera.currentZoom
+        relCellWidth = Defaults.cellWidth + camera.currentZoom
+        # the current position needs to be in the grid-bounds
+        if(0 <= currentRelativeMouseX // relCellWidth < grid.currentSize and \
+           0 <= currentRelativeMouseY // relCellHeight < grid.currentSize):
+            #add alive cell(s) (if the left mouse button was clicked)
             if(pygame.mouse.get_pressed()[0] == True and pygame.mouse.get_pressed()[1] == False):
-                    grid.grid[(pygame.mouse.get_pos()[0] - camera.pos[0]) // Defaults.cellHeight] \
-                            [(pygame.mouse.get_pos()[1] - camera.pos[1]) // Defaults.cellWidth] = 1
-            #remove alive cell
+                    grid.grid[currentRelativeMouseY // relCellHeight] \
+                            [currentRelativeMouseX // relCellWidth] = 1
+            #remove alive cell(s) (if the right mouse button was clicked)
             if(pygame.mouse.get_pressed()[2] == True and pygame.mouse.get_pressed()[0] == False):
-                    grid.grid[(pygame.mouse.get_pos()[0] - camera.pos[0]) // Defaults.cellHeight]\
-                            [(pygame.mouse.get_pos()[1] - camera.pos[1]) // Defaults.cellWidth] = 0
+                    grid.grid[currentRelativeMouseY // relCellHeight] \
+                            [currentRelativeMouseX // relCellWidth] = 0
 
     #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True and handled == False):
@@ -148,12 +149,14 @@ while not done:
         for cY, y in enumerate(x):
             if not y:
                 DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE,
-                                            cX * Defaults.cellHeight + camera.pos[0], cY * Defaults.cellWidth + camera.pos[1],
-                                            Defaults.cellHeight, Defaults.cellWidth, 1)
+                                            cX * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
+                                            cY * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
+                                            Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
             else:
                 DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK,
-                                            cX * Defaults.cellHeight + camera.pos[0], cY * Defaults.cellWidth + camera.pos[1],
-                                            Defaults.cellHeight, Defaults.cellWidth, 1)
+                                            cX * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
+                                            cY * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
+                                            Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
     #Draw play/stop-button
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.stButtonPos[0], Defaults.stButtonPos[1],
                                         Defaults.stButtonSize, Defaults.stButtonSize, 2)
@@ -186,7 +189,7 @@ while not done:
  
 
     # --- Limit to 60 frames per second
-    clock.tick(60)
+    clock.tick(0)
 
     #increase the passed time
     passedTime += 1
