@@ -42,9 +42,8 @@ Ziele:
     * Menubar (_event gesteuerte Programmierung_):
         * play/pause ✓
         * neues Spiel button 
-        * einen Schritt-weiter-button
+        * einen Schritt-weiter-button ✓
         * zoom in/out button ✓
-        * neues Spiel Button
  
 * Performance (_Geschwindigkeitsoptimierung_):
     * Multithreaded Generationsberechnung
