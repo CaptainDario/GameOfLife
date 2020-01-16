@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "/home/dario/data/uni/5semester/modSim/tmpGameOfLife/gameOfLife/bin/python3"
+    "python.pythonPath": "/home/dario/data/uni/5semester/modSim/tmpGameOfLife/gameOfLife/bin/python3",
+    "cSpell.words": [
+        "hstack",
+        "numpy",
+        "pygame",
+        "vstack"
+    ]
 }
