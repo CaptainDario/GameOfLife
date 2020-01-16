@@ -50,11 +50,12 @@ while not done:
         if event.type == pygame.MOUSEBUTTONDOWN:
             #zoom out
             if event.button == 4:
-                print(camera.currentZoom)
                 camera.zoomOut()
+                grid.fullRedraw()
             #zoom in
             if event.button == 5:
                 camera.zoomIn()
+                grid.fullRedraw()
         if event.type == pygame.QUIT:
             done = True
  
@@ -73,6 +74,7 @@ while not done:
         newCamPos = (pygame.mouse.get_pos()[0] - relMousePos[0],
                     pygame.mouse.get_pos()[1] - relMousePos[1])
         camera.setPos(newCamPos)
+        grid.fullRedraw()
     
     #INITIALIZE BOARD
     if(grid.currentTime == 0):
@@ -90,10 +92,12 @@ while not done:
             if(pygame.mouse.get_pressed()[0] == True and pygame.mouse.get_pressed()[1] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 1
+                    grid.cellsToUpdate.append((currentRelativeMouseY // relCellHeight, currentRelativeMouseX // relCellWidth))
             #remove alive cell(s) (if the right mouse button was clicked)
             if(pygame.mouse.get_pressed()[2] == True and pygame.mouse.get_pressed()[0] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 0
+                    grid.cellsToUpdate.append((currentRelativeMouseY // relCellHeight, currentRelativeMouseX // relCellWidth))
 
     #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True and handled == False):
@@ -133,7 +137,6 @@ while not done:
             if(isRunning == False):
                 grid.applyRules()
 
-
     #set handled
     if(pygame.mouse.get_pressed()[0] == True and not handled):
         handled = True
@@ -146,24 +149,26 @@ while not done:
             grid.applyRules()
             passedTime = 0
 
-    #Clear the screen
-    screen.fill(Defaults.BLACK)
- 
-
     # --- Drawing code should go here
+    if(grid.fullRedrawRequired):
+        #Clear the screen
+        screen.fill(Defaults.BLACK)
+        grid.fullRedrawRequired = False
     #Draw the grid
-    for cX, x in enumerate(grid.grid):
-        for cY, y in enumerate(x):
-            if not y:
-                DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE,
-                                            cX * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
-                                            cY * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
-                                            Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
-            else:
-                DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK,
-                                            cX * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
-                                            cY * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
-                                            Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
+    while grid.cellsToUpdate != []:
+        cell = grid.cellsToUpdate.pop(0)
+        #draw dead cells
+        if grid.grid[cell[0]][cell[1]] == 0:
+            DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE,
+                                        cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
+                                        cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
+                                        Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
+        #draw alive cell
+        else:
+            DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK,
+                                        cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
+                                        cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
+                                        Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
 
     #draw a white rect for the menubar (draw over the grid if it is moved)
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,
