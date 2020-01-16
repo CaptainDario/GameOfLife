@@ -100,15 +100,25 @@ while not done:
                     grid.cellsToUpdate.append((currentRelativeMouseY // relCellHeight, currentRelativeMouseX // relCellWidth))
 
     #MENUBAR CONTROL
-    if(pygame.mouse.get_pressed()[0] == True and handled == False):
-        #play/pause-button check y-pos and x-pos
-        if(Defaults.stButtonPos[1] <=
-           pygame.mouse.get_pos()[1] <=
-           Defaults.stButtonPos[1] + Defaults.stButtonSize and
-           Defaults.stButtonPos[0] <=
-           pygame.mouse.get_pos()[0] <=
-           Defaults.stButtonPos[0] + Defaults.stButtonSize):
-            isRunning = not isRunning
+    if(pygame.mouse.get_pressed()[0] == True):
+        if(handled == False):
+            #play/pause-button check y-pos and x-pos
+            if(Defaults.stButtonPos[1] <=
+            pygame.mouse.get_pos()[1] <=
+            Defaults.stButtonPos[1] + Defaults.stButtonSize and
+            Defaults.stButtonPos[0] <=
+            pygame.mouse.get_pos()[0] <=
+            Defaults.stButtonPos[0] + Defaults.stButtonSize):
+                isRunning = not isRunning
+            #one-step-button
+            if(Defaults.oneStepButtonPos[1] <=
+            pygame.mouse.get_pos()[1] <=
+            Defaults.oneStepButtonPos[1] + Defaults.oneStepButtonSize and
+            Defaults.oneStepButtonPos[0] <=
+            pygame.mouse.get_pos()[0] <=
+            Defaults.oneStepButtonPos[0] + Defaults.oneStepButtonSize):
+                if(isRunning == False):
+                    grid.applyRules()
         #speed-up-button
         if(Defaults.spUpButtonPos[1] <=
            pygame.mouse.get_pos()[1] <=
@@ -127,16 +137,7 @@ while not done:
            pygame.mouse.get_pos()[0] <=
            Defaults.spDownButtonPos[0] + Defaults.spDownButtonSize):
             simulationSpeed += speedSteps
-        #one-step-button
-        if(Defaults.oneStepButtonPos[1] <=
-           pygame.mouse.get_pos()[1] <=
-           Defaults.oneStepButtonPos[1] + Defaults.oneStepButtonSize and
-           Defaults.oneStepButtonPos[0] <=
-           pygame.mouse.get_pos()[0] <=
-           Defaults.oneStepButtonPos[0] + Defaults.oneStepButtonSize):
-            if(isRunning == False):
-                grid.applyRules()
-
+    
     #set handled
     if(pygame.mouse.get_pressed()[0] == True and not handled):
         handled = True
@@ -165,7 +166,7 @@ while not done:
                                         Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
         #draw alive cell
         else:
-            DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK,
+            DrawUtil.drawRectWithBorder(screen, Defaults.WHITE, Defaults.BLACK,
                                         cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
                                         cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
                                         Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
