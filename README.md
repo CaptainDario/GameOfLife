@@ -12,8 +12,8 @@ Eine Implementierung von Conway's "Game of Life".
 Ziele:
 
 * Spiel:
-    * Spielbrett:
-        * Grid (unedliche Generieung, wenn die Objekte sich bewegen)
+    * Spielbrett: ✓
+        * Grid (unedliche Generieung, wenn die Objekte sich bewegen) ✓
         * auswaelbarer Startkonfig ✓
     * Regeln (wikipedia): ✓
         * Eine tote Zelle mit genau drei lebenden Nachbarn wird in der Folgegeneration neu geboren. ✓
