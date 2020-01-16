@@ -7,7 +7,7 @@ class Defaults():
 
     #Game info
     name = "Game Of Life"
-    version = "v0.2.2"
+    version = "v0.3.0"
     title = name + " " + version
 
     #default grid size
