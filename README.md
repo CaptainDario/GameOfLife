@@ -48,6 +48,7 @@ Ziele:
 * Performance (_Geschwindigkeitsoptimierung_):
     * Multithreaded Generationsberechnung
     * grosse Bereiche in denen keine lebenden Zellen vorkommen ueberspringen
+    * nur Zellen neu zeichnen welche auch veraendert wurden
  
 * PyInstaller executable:
     * windows
