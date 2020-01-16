@@ -23,7 +23,7 @@ Ziele:
     * Zoomen (Raster vergroessern/verkleinern) ✓
     * bewegen (auf dem Raster hin und her bewegen):
         * auf dem spielfeld hin- und her bewegen ✓
-        * unedliche Spielbrett Generierung (wenn Grenzen erreicht?)
+        * ~~unedliche Spielbrett Generierung (wenn Grenzen erreicht?)~~ (nur wenn objekte die Grenzen erreichen)
  
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
