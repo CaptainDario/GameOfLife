@@ -10,17 +10,32 @@ class Grid():
     The class for storing the current game state.
 
     attributes:
-        defaultSize - default size of the grid
-        currentTime - the current time step of the simulation (0 means that a start config needs to be drawn)
-        grid        - numpy matrix to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
+        defaultSize        - default size of the grid
+        currentTime        - the current time step of the simulation (0 means that a start config needs to be drawn)
+        grid               - numpy matrix to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
+        fullUpdateRequired - if a full update is required (wipe screen blank and redraw everything [computationally expensive])
+        cellsToUpdate      - all cells which need to be redrawn next frame
     """
 
     def __init__(self):
         self.currentSize = Defaults.defaultGridSize
         self.currentTime = 0
         self.grid = np.zeros((self.currentSize, self.currentSize))
+        self.fullRedrawRequired = False
+        self.cellsToUpdate = []
 
-        #self.grid[13][5] = 1
+        self.fullRedraw()
+
+
+    def fullRedraw(self):
+        """
+        Tells the grid that a complete update of the graphics is required.
+        Calling this function often is computationally very expensive.
+        """
+
+        self.fullRedrawRequired = True
+        self.cellsToUpdate = [(x, y) for y in range(self.currentSize) for x in range(self.currentSize)]
+
 
     def applyRules(self):
         """
@@ -33,11 +48,18 @@ class Grid():
         #iterate ove all cells
         for cY, row in enumerate(futureGrid):
             for cX, cell in enumerate(row):
-                futureGrid[cX][cY] = 0 if self.__rule2(cX, cY) is not None else futureGrid[cX][cY]
-                futureGrid[cX][cY] = 0 if self.__rule4(cX, cY) is not None else futureGrid[cX][cY]
+                r1, r2, r3, r4 = self.__rule1(cX, cY), self.__rule2(cX, cY), self.__rule3(cX, cY), self.__rule4(cX, cY) 
 
-                futureGrid[cX][cY] = 1 if self.__rule1(cX, cY) is not None else futureGrid[cX][cY]
-                futureGrid[cX][cY] = 1 if self.__rule3(cX, cY) is not None else futureGrid[cX][cY]
+                if(r1 is not None):
+                    futureGrid[cX][cY] = 1
+                elif(r2 is not None):
+                    futureGrid[cX][cY] = 0
+                elif(r3 is not None):
+                    futureGrid[cX][cY] = 1
+                elif(r4 is not None):
+                    futureGrid[cX][cY] = 0
+                else:
+                    self.cellsToUpdate.append((cY, cX))
 
         self.grid = deepcopy(futureGrid)
         self.currentTime += 1
@@ -198,3 +220,6 @@ class Grid():
         """
 
         return r1 + r2 + r3 + r4 
+
+
+
