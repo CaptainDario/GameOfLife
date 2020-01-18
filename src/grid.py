@@ -1,4 +1,5 @@
 import math
+import multiprocessing
 
 import numpy as np
 
@@ -26,6 +27,7 @@ class Grid():
         self.fullRedrawRequired = False
         self.cellsToUpdate = []
 
+        # when board initialized do a full redraw
         self.fullRedraw()
 
 
@@ -57,6 +59,7 @@ class Grid():
         #iterate ove all cells
         for cY, row in enumerate(futureGrid):
             for cX, cell in enumerate(row):
+
                 #check if this cell is near the border
                 _left, _top, _right, _bottom = False, False, False, False
 
@@ -87,7 +90,6 @@ class Grid():
                 if futureGrid[cX][cY] != self.grid[cX][cY] and \
                    not self.fullRedrawRequired:
                     self.cellsToUpdate.append((cX, cY))
-
         #resize if necessary
         if(left or top or right or bottom):
             futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
