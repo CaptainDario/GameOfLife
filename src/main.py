@@ -167,12 +167,12 @@ while not done:
             cell = (math.floor(c / grid.currentSize), c % grid.currentSize)
             #draw dead cells
             if grid.grid[cell[0]][cell[1]] == 0:
-                pygame.draw.rect(screen, Defaults.BLACK,
-                                pygame.Rect(
-                                    (cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0]) + 1,
-                                    (cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1]) + 1,
-                                    ((Defaults.cellHeight + camera.currentZoom) - 2),
-                                    ((Defaults.cellWidth + camera.currentZoom) - 2)))
+                screen.fill(Defaults.BLACK,
+                            pygame.Rect(
+                                (cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0]) + 1,
+                                (cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1]) + 1,
+                                ((Defaults.cellHeight + camera.currentZoom) - 2),
+                                ((Defaults.cellWidth + camera.currentZoom) - 2)))
             #draw alive cells
             else:
                 screen.fill(Defaults.WHITE,
