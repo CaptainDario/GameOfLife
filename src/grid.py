@@ -18,6 +18,7 @@ class Grid():
         currentTime        - the current time step of the simulation (0 means that a start config needs to be drawn)
         grid               - numpy matrix to store the board (0 - dead | 1 - alive) (size: defaultSize x defaultSize)
         fullRedrawRequired - if a full update is required (wipe screen blank and redraw everything [computationally expensive])
+        redrawRequired     - if a partial update is required
         cellsToUpdate      - all cells which need to be redrawn next frame
     """
 
@@ -26,7 +27,9 @@ class Grid():
         self.currentTime = 0
         self.grid = np.zeros((self.currentSize, self.currentSize))
         self.fullRedrawRequired = False
-        self.cellsToUpdate = []
+        self.redrawRequired = False
+        self.cellsToUpdate = np.zeros(self.currentSize ** 2)
+
 
         # when board initialized do a full redraw
         self.fullRedraw()
@@ -39,7 +42,8 @@ class Grid():
         """
 
         self.fullRedrawRequired = True
-        self.cellsToUpdate = [(x, y) for y in range(self.currentSize) for x in range(self.currentSize)]
+        self.cellsToUpdate.fill(1)
+        self.redrawRequired = True
 
     def applyRules(self):
         """
@@ -77,9 +81,8 @@ class Grid():
                     top    = True if _top else top
                     right  = True if _right else right
                     bottom = True if _bottom else bottom
-
+        #multithreaded
         else:
-            
             #iterate ove all cells
             fetteListe = []
             for cY in range(self.currentSize):
@@ -96,9 +99,6 @@ class Grid():
         self.grid = deepcopy(futureGrid)
         self.currentTime += 1
 
-    def unpack(self, arg):
-
-        self.__processCell(*arg)
 
     def __processCell(self, cX, cY) -> (int, bool, bool, bool, bool):
         """
@@ -131,7 +131,8 @@ class Grid():
         #and a full redraw is not necessary 
         if newCell != self.grid[cX][cY] and \
             not self.fullRedrawRequired:
-            self.cellsToUpdate.append((cX, cY))
+            self.redrawRequired = True
+            self.cellsToUpdate[cX * self.currentSize + cY] = 1
 
         return newCell, _left, _top, _right, _bottom
 
@@ -242,8 +243,8 @@ class Grid():
             grid = np.hstack((tmp, grid))
 
         #set the new gridsize
-        test = math.floor([top, right, bottom, left].count(True) // 2)
-        self.currentSize += test
+        self.currentSize += math.floor([top, right, bottom, left].count(True) // 2)
+        self.cellsToUpdate.resize(self.currentSize ** 2, refcheck=False)
 
         #grid got resize --> redraw whole grid
         self.fullRedraw()
@@ -356,44 +357,17 @@ class Grid():
             Amount of living neighbors
         """
 
-        #tmp list for all neighbors
-        neighbors = []
+        neighborsValue = 0
+        for x in range(posX - 1, posX + 2):
+            for y in range(posY - 1, posY + 2):
+                if(y < 0 or y >= len(self.grid) or \
+                    x < 0 or x >= len(self.grid) or \
+                    x == posX and y == posY):
+                    continue
+                
+                neighborsValue += self.grid[x][y]
 
-        #UPPER
-        #upper left 
-        if(posY-1 > -1 and posX-1 > -1):
-            neighbors.append(self.grid[posX-1][posY-1])
-        #upper center
-        if(posY-1 > -1):
-            neighbors.append(self.grid[posX][posY-1])
-        #upper right
-        if(posY-1 > -1 and posX+1 < self.currentSize):
-            neighbors.append(self.grid[posX+1][posY-1])
-
-
-        #SAME HEIGHT
-        #lower left 
-        if(posX-1 > -1):
-            neighbors.append(self.grid[posX-1][posY])
-        #lower right
-        if(posX+1 < self.currentSize):
-            neighbors.append(self.grid[posX+1][posY])
-
-
-        #LOWER
-        #lower left 
-        if(posY+1 < self.currentSize and posX-1 > -1):
-            neighbors.append(self.grid[posX-1][posY+1])
-        #lower center
-        if(posY+1 < self.currentSize):
-            neighbors.append(self.grid[posX][posY+1])
-        #lower right
-        if(posY+1 < self.currentSize and posX+1 < self.currentSize):
-            neighbors.append(self.grid[posX+1][posY+1])
-
-        #print("X:", posX,"Y:", posY, neighbors)
-
-        return sum(neighbors)
+        return neighborsValue
 
 
 
