@@ -11,7 +11,7 @@ class Defaults():
     title = name + " " + version
 
     #default grid size
-    defaultGridSize = 30
+    defaultGridSize = 10
 
     #grid-cell size
     cellHeight, cellWidth = 10, 10

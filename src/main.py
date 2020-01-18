@@ -1,4 +1,5 @@
 import pygame
+import math
 
 from defaults import Defaults
 from grid import Grid
@@ -90,12 +91,12 @@ while not done:
             if(pygame.mouse.get_pressed()[0] == True and pygame.mouse.get_pressed()[1] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 1
-                    grid.cellsToUpdate.append((currentRelativeMouseY // relCellHeight, currentRelativeMouseX // relCellWidth))
+                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSize + currentRelativeMouseX // relCellWidth] = 1
             #remove alive cell(s) (if the right mouse button was clicked)
             if(pygame.mouse.get_pressed()[2] == True and pygame.mouse.get_pressed()[0] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 0
-                    grid.cellsToUpdate.append((currentRelativeMouseY // relCellHeight, currentRelativeMouseX // relCellWidth))
+                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSize + currentRelativeMouseX // relCellWidth] = 1
 
     #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True):
@@ -152,22 +153,35 @@ while not done:
     if(grid.fullRedrawRequired):
         #Clear the screen
         screen.fill(Defaults.BLACK)
+        #print(camera.pos)
+        pygame.draw.rect(screen, Defaults.WHITE,
+                    pygame.Rect(
+                        camera.pos[0],
+                        camera.pos[1],
+                        (Defaults.cellHeight * grid.currentSize + (camera.currentZoom * grid.currentSize)),
+                        (Defaults.cellWidth * grid.currentSize + (camera.currentZoom * grid.currentSize))))
         grid.fullRedrawRequired = False
     #Draw the grid
-    while grid.cellsToUpdate != []:
-        cell = grid.cellsToUpdate.pop(0)
-        #draw dead cells
-        if grid.grid[cell[0]][cell[1]] == 0:
-            DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE,
-                                        cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
-                                        cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
-                                        Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
-        #draw alive cell
-        else:
-            DrawUtil.drawRectWithBorder(screen, Defaults.WHITE, Defaults.BLACK,
-                                        cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
-                                        cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
-                                        Defaults.cellHeight + camera.currentZoom, Defaults.cellWidth + camera.currentZoom, 1)
+    if(grid.redrawRequired):
+        for c, item in enumerate(grid.cellsToUpdate):
+            cell = (math.floor(c / grid.currentSize), c % grid.currentSize)
+            #draw dead cells
+            if grid.grid[cell[0]][cell[1]] == 0:
+                pygame.draw.rect(screen, Defaults.BLACK,
+                                pygame.Rect(
+                                    (cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0]) + 1,
+                                    (cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1]) + 1,
+                                    ((Defaults.cellHeight + camera.currentZoom) - 2),
+                                    ((Defaults.cellWidth + camera.currentZoom) - 2)))
+            #draw alive cells
+            else:
+                screen.fill(Defaults.WHITE,
+                            pygame.Rect(
+                                cell[0] * (Defaults.cellHeight + camera.currentZoom) + camera.pos[0],
+                                cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
+                                Defaults.cellHeight + camera.currentZoom,
+                                Defaults.cellWidth + camera.currentZoom))
+            grid.cellsToUpdate[c] = 0
 
     #draw a white rect for the menubar (draw over the grid if it is moved)
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,
