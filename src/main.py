@@ -39,8 +39,6 @@ grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight)
 
 
 
-
-
  
 # -------- Main Program Loop -----------
 while not done:
