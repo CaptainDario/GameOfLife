@@ -4,6 +4,7 @@ import multiprocessing
 import numpy as np
 
 from copy import deepcopy
+from itertools import product
 
 from defaults import Defaults
 
@@ -58,13 +59,13 @@ class Grid():
 
         #multithreading pool
         coreCount = multiprocessing.cpu_count()
-        pool = multiprocessing.Pool(coreCount)
+        pool = multiprocessing.Pool(1)
 
-        if(not coreCount > 1):
+        #single core calculations
+        if(True):
             #iterate ove all cells
             for cY, row in enumerate(futureGrid):
-
-                #tmp 
+                #tmp sides 
                 _left, _top, _right, _bottom = False, False, False, False
                 for cX, cell in enumerate(row):
                     
@@ -77,6 +78,16 @@ class Grid():
                     right  = True if _right else right
                     bottom = True if _bottom else bottom
 
+        else:
+            
+            #iterate ove all cells
+            fetteListe = []
+            for cY in range(self.currentSize):
+                for cX in range(self.currentSize):
+                    fetteListe.append((self, cY, cX))
+            L = pool.starmap(self.__processCell, product(fetteListe, repeat=3))
+            print(fetteListe)
+
         #resize if necessary
         if(left or top or right or bottom):
             futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
@@ -84,6 +95,10 @@ class Grid():
         #copy the new grid to the old and increase the time
         self.grid = deepcopy(futureGrid)
         self.currentTime += 1
+
+    def unpack(self, arg):
+
+        self.__processCell(*arg)
 
     def __processCell(self, cX, cY) -> (int, bool, bool, bool, bool):
         """
@@ -380,17 +395,6 @@ class Grid():
 
         return sum(neighbors)
 
-    def __mergeRuleMatrices(self, r1 : [[int]], r2 : [[int]], r3 : [[int]], r4 : [[int]]) -> [[int]]:
-        """
-
-
-        Args:
-
-        Returns:
-
-        """
-
-        return r1 + r2 + r3 + r4 
 
 
 
