@@ -56,40 +56,27 @@ class Grid():
         # sides which maybe need to be enlargened
         left, top, right, bottom = False, False, False, False
 
-        #iterate ove all cells
-        for cY, row in enumerate(futureGrid):
-            for cX, cell in enumerate(row):
+        #multithreading pool
+        coreCount = multiprocessing.cpu_count()
+        pool = multiprocessing.Pool(coreCount)
 
-                #check if this cell is near the border
+        if(not coreCount > 1):
+            #iterate ove all cells
+            for cY, row in enumerate(futureGrid):
+
+                #tmp 
                 _left, _top, _right, _bottom = False, False, False, False
+                for cX, cell in enumerate(row):
+                    
+                    newCell, _left, _top, _right, _bottom  = self.__processCell(cX, cY)
+                    futureGrid[cX][cY] = newCell
 
-                #apply the rules
-                r1, r2 = self.__rule1(cX, cY), self.__rule2(cX, cY)
-                r3, r4 = self.__rule3(cX, cY), self.__rule4(cX, cY)
-                if(r2 is not None):
-                    futureGrid[cX][cY] = 0
-                elif(r4 is not None):
-                    futureGrid[cX][cY] = 0
-                elif(r1 is not None):
-                    futureGrid[cX][cY] = 1
-                    # check if the cell is to close to the border
-                    _left, _top, _right, _bottom = self.__cellIsNearBorder(cX, cY)
-                elif(r3 is not None):
-                    futureGrid[cX][cY] = 1
-                    #check if the cell is too close to the border
-                    _left, _top, _right, _bottom = self.__cellIsNearBorder(cX, cY)
+                    #remember that this side(s) need to be expanded
+                    left   = True if _left else left
+                    top    = True if _top else top
+                    right  = True if _right else right
+                    bottom = True if _bottom else bottom
 
-                #remember that this side(s) need to be expanded
-                left   = True if _left else left
-                top    = True if _top else top
-                right  = True if _right else right
-                bottom = True if _bottom else bottom
-
-                #redraw a cell if its state has changed
-                #and a full redraw is not necessary 
-                if futureGrid[cX][cY] != self.grid[cX][cY] and \
-                   not self.fullRedrawRequired:
-                    self.cellsToUpdate.append((cX, cY))
         #resize if necessary
         if(left or top or right or bottom):
             futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
@@ -98,6 +85,40 @@ class Grid():
         self.grid = deepcopy(futureGrid)
         self.currentTime += 1
 
+    def __processCell(self, cX, cY) -> (int, bool, bool, bool, bool):
+        """
+        
+        """
+
+        #the value of the new cell
+        newCell = self.grid[cX][cY]
+
+        #check if this cell is near the border
+        _left, _top, _right, _bottom = False, False, False, False
+
+        #apply the rules
+        r1, r2 = self.__rule1(cX, cY), self.__rule2(cX, cY)
+        r3, r4 = self.__rule3(cX, cY), self.__rule4(cX, cY)
+        if(r2 is not None):
+            newCell = 0
+        elif(r4 is not None):
+            newCell = 0
+        elif(r1 is not None):
+            newCell = 1
+            # check if the cell is to close to the border
+            _left, _top, _right, _bottom = self.__cellIsNearBorder(cX, cY)
+        elif(r3 is not None):
+            newCell = 1
+            #check if the cell is too close to the border
+            _left, _top, _right, _bottom = self.__cellIsNearBorder(cX, cY)
+
+        #redraw a cell if its state has changed
+        #and a full redraw is not necessary 
+        if newCell != self.grid[cX][cY] and \
+            not self.fullRedrawRequired:
+            self.cellsToUpdate.append((cX, cY))
+
+        return newCell, _left, _top, _right, _bottom
 
     def __cellIsNearBorder(self, _x : int, _y : int) -> (bool, bool, bool, bool):
         """

@@ -17,7 +17,7 @@ class Camera():
         self.pos = (0, 0)
 
         #zooming
-        self.currentZoom = 10
+        self.currentZoom = 50
         self.zoomOutLimit = 50 
         self.zoomInLimit = -7
 
