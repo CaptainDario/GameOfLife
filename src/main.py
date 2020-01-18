@@ -12,9 +12,10 @@ pygame.init()
 # Set the width and height of the screen [width, height]
 size = (Defaults.wHeight, Defaults.wWidth)
 screen = pygame.display.set_mode(size)
- 
+screen.set_alpha(None)
+
 pygame.display.set_caption(Defaults.title)
- 
+
 # Loop until the user clicks the close button.
 done, handled = False, False
 
