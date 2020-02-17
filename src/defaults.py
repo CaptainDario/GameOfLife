@@ -11,14 +11,13 @@ class Defaults():
     title = name + " " + version
 
     #default grid size
-    defaultGridSize = 10
+    defaultGridSize = 40
 
     #grid-cell size
     cellHeight, cellWidth = 10, 10
 
     #grid size
     gridSize = 100 * cellHeight#defaultGridSize * cellHeight
-
 
     #menubar
     menubarHeight = 80

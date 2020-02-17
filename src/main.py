@@ -86,18 +86,18 @@ while not done:
         relCellHeight = Defaults.cellHeight + camera.currentZoom
         relCellWidth = Defaults.cellWidth + camera.currentZoom
         # the current position needs to be in the grid-bounds
-        if(0 <= currentRelativeMouseX // relCellWidth < grid.currentSize and \
-           0 <= currentRelativeMouseY // relCellHeight < grid.currentSize):
+        if(0 <= currentRelativeMouseX // relCellWidth < grid.currentSizeX and \
+           0 <= currentRelativeMouseY // relCellHeight < grid.currentSizeY):
             #add alive cell(s) (if the left mouse button was clicked)
             if(pygame.mouse.get_pressed()[0] == True and pygame.mouse.get_pressed()[1] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 1
-                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSize + currentRelativeMouseX // relCellWidth] = 1
+                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSizeX + currentRelativeMouseX // relCellWidth] = 1
             #remove alive cell(s) (if the right mouse button was clicked)
             if(pygame.mouse.get_pressed()[2] == True and pygame.mouse.get_pressed()[0] == False):
                     grid.grid[currentRelativeMouseY // relCellHeight] \
                             [currentRelativeMouseX // relCellWidth] = 0
-                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSize + currentRelativeMouseX // relCellWidth] = 1
+                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSizeX + currentRelativeMouseX // relCellWidth] = 1
 
     #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True):
@@ -159,13 +159,13 @@ while not done:
                     pygame.Rect(
                         camera.pos[0],
                         camera.pos[1],
-                        (Defaults.cellHeight * grid.currentSize + (camera.currentZoom * grid.currentSize)),
-                        (Defaults.cellWidth * grid.currentSize + (camera.currentZoom * grid.currentSize))))
+                        (Defaults.cellHeight * grid.currentSizeX + (camera.currentZoom * grid.currentSizeX)),
+                        (Defaults.cellWidth * grid.currentSizeY + (camera.currentZoom * grid.currentSizeY))))
         grid.fullRedrawRequired = False
     #Draw the grid
     if(grid.redrawRequired):
         for c, item in enumerate(grid.cellsToUpdate):
-            cell = (math.floor(c / grid.currentSize), c % grid.currentSize)
+            cell = (c % grid.currentSizeY, math.floor(c / grid.currentSizeX))
             #draw dead cells
             if grid.grid[cell[0]][cell[1]] == 0:
                 screen.fill(Defaults.BLACK,
