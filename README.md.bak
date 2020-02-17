@@ -24,7 +24,12 @@ Ziele:
     * bewegen (auf dem Raster hin und her bewegen): ✓
         * auf dem spielfeld hin- und her bewegen ✓
         * ~~unedliche Spielbrett Generierung (wenn Grenzen erreicht?)~~ (nur wenn objekte die Grenzen erreichen)
- 
+    * Randbedingungen:
+        * reflektierend
+        * absorbierend
+        * periodisch
+        * (erweiternd)
+
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
         * neues Spiel:   
