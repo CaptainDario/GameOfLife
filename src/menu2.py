@@ -6,7 +6,7 @@ from main import runGameOfLife
 from defaults import Defaults
 
 
-COLOR_BACKGROUND = (0, 10, 20)
+COLOR_BACKGROUND = (60, 70, 70)
 COLOR_SELECTED = (196, 60, 44)
 COLOR_UNSELECTED = (255, 255, 255)
 MENU_BACKGROUND_COLOR = (0,0,0)
@@ -14,11 +14,12 @@ WINDOW_SIZE = (Defaults.wHeight, Defaults.wWidth)
 BOUNDARY_CONDITION = ['ABSORBING']
 
 main_menu = None
+boards_menu = None
 surface = None
 
 def change_boundaryCondition(value, boundaryCondition):
     """
-    Change boundary Conditions.
+    Changes boundary Conditions.
     :param value: Tuple containing the data of the selected object
     :type value: tuple
     :param boundaryCondition: Optional parameter passed as argument to add_selector
@@ -63,19 +64,46 @@ def main(test=False):
                                 menu_width=int(WINDOW_SIZE[0] * 0.8),
                                 onclose=pygameMenu.events.DISABLE_CLOSE,
                                 option_shadow=False,
-                                title='Cornwys Game of Life',
+                                title='Cornwys   Game   of   Life',
                                 window_height=WINDOW_SIZE[1],
                                 window_width=WINDOW_SIZE[0]
                                 )
-
+    boards_menu = pygameMenu.Menu(surface,
+                                bgfun=main_background,
+                                color_selected=COLOR_SELECTED,
+                                font=pygameMenu.font.FONT_BEBAS,
+                                font_color=COLOR_UNSELECTED,
+                                font_size_title=32,
+                                font_size=28,
+                                menu_alpha=100,
+                                menu_color=MENU_BACKGROUND_COLOR,
+                                menu_height=int(WINDOW_SIZE[1] * 0.5),
+                                menu_width=int(WINDOW_SIZE[0] * 0.8),
+                                onclose=pygameMenu.events.DISABLE_CLOSE,
+                                option_shadow=False,
+                                title='load   board',
+                                window_height=WINDOW_SIZE[1],
+                                window_width=WINDOW_SIZE[0]
+                                )
+    
+    #add main Menu Options
     main_menu.add_option('Play', runGameOfLife)
-    main_menu.add_selector('Select boundaryCondition',
+    main_menu.add_option('load   board', boards_menu)
+    main_menu.add_selector('boundaryCondition',
                            [('absorbing', 'ABSORBING'),
                             ('periodic', 'PERIODIC'),
-                            ('reflecting', 'REFLECTING')],
+                            ('reflecting', 'REFLECTING'),
+                            ('expanding', 'EXPANDING')],
                            onchange=change_boundaryCondition,
                            selector_id='select_boundaryCondition')
     main_menu.add_option('Quit', pygameMenu.events.EXIT)
+
+    #add load boards Menu Options
+    boards_menu.add_option('default   Example   1', runGameOfLife)
+    boards_menu.add_option('default   Example   2', runGameOfLife)
+    boards_menu.add_option('Random   Board', runGameOfLife)
+    boards_menu.add_option('Back', pygameMenu.events.BACK)
+    
 
 
 
