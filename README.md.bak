@@ -32,24 +32,25 @@ Ziele:
 
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
-        * neues Spiel:   
-            * board laden:
-                * defaults (_interessante Beispiele_)
-                * eigenes board
-            * board speichern
-            * zufaelliges board
-            * selber board erstellen board:
-                * Systemgroesse
-                * Randbedingungen
-                * Anfangsbedingungen
-                * Regel-string
-            * Tutorial:
-                * Erklaerung der Tastenbelegungen
+        * neues board:   ✓
+        * board laden:
+            * defaults (_interessante Beispiele_)
+            * eigenes board
+            * zufaelliges board         
+        * selber board erstellen:
+            * Systemgroesse
+            * Randbedingungen
+            * Anfangsbedingungen
+            * Regel-string
+        * Tutorial:
+            * Erklaerung der Tastenbelegungen
     * Menubar (_event gesteuerte Programmierung_):
         * play/pause ✓
         * neues Spiel button 
         * einen Schritt-weiter-button ✓
         * zoom in/out button ✓
+        * zurück zum Hauptmenü button
+        * board speichern
  
 * Performance (_Geschwindigkeitsoptimierung_):
     * Multithreaded Generationsberechnung
