@@ -1,6 +1,8 @@
 
 import pygame
 import pygameMenu
+import numpy as np
+import random
 
 from main import runGameOfLife
 from defaults import Defaults
@@ -16,6 +18,18 @@ BOUNDARY_CONDITION = ['ABSORBING']
 main_menu = None
 boards_menu = None
 surface = None
+
+emptyGrid = np.zeros((Defaults.defaultGridSize, Defaults.defaultGridSize))
+defaultGrid1 = np.zeros((Defaults.defaultGridSize, Defaults.defaultGridSize))
+randomGrid = np.zeros((Defaults.defaultGridSize, Defaults.defaultGridSize))
+
+for i in range(randomGrid.shape[0]):
+    for j in range(randomGrid.shape[1]):
+        randomGrid[i][j] = random.randint(0,1)
+
+for i in range(defaultGrid1.shape[0]):
+    defaultGrid1[i][i] = 1
+    defaultGrid1[i][defaultGrid1.shape[0]-i-1] = 1
 
 def change_boundaryCondition(value, boundaryCondition):
     """
@@ -37,7 +51,6 @@ def main_background():
     """
     global surface
     surface.fill(COLOR_BACKGROUND)
-
 
 def main(test=False):
 
@@ -87,7 +100,7 @@ def main(test=False):
                                 )
     
     #add main Menu Options
-    main_menu.add_option('Play', runGameOfLife)
+    main_menu.add_option('Play', runGameOfLife, emptyGrid)
     main_menu.add_option('load   board', boards_menu)
     main_menu.add_selector('boundaryCondition',
                            [('absorbing', 'ABSORBING'),
@@ -99,9 +112,9 @@ def main(test=False):
     main_menu.add_option('Quit', pygameMenu.events.EXIT)
 
     #add load boards Menu Options
-    boards_menu.add_option('default   Example   1', runGameOfLife)
-    boards_menu.add_option('default   Example   2', runGameOfLife)
-    boards_menu.add_option('Random   Board', runGameOfLife)
+    boards_menu.add_option('default   Example   1',runGameOfLife ,defaultGrid1)
+    boards_menu.add_option('default   Example   2', runGameOfLife, emptyGrid)
+    boards_menu.add_option('Random   Board', runGameOfLife, randomGrid)
     boards_menu.add_option('Back', pygameMenu.events.BACK)
     
 
