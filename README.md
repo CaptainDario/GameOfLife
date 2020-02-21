@@ -33,9 +33,9 @@ Ziele:
     * Main menu:
         * neues board:   ✓
         * board laden:
-            * defaults (_interessante Beispiele_)
+            * defaults (_interessante Beispiele_) ✓
             * eigenes board
-            * zufaelliges board         
+            * zufaelliges board         ✓
         * selber board erstellen:
             * Systemgroesse
             * Randbedingungen

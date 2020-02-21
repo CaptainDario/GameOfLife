@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 from defaults import Defaults
 from grid import Grid
@@ -6,7 +7,16 @@ from drawUtil import DrawUtil
 from camera import Camera
 
 
-def runGameOfLife():
+def runGameOfLife(exampleMatrix):
+    """
+    Main function to start the Simulation Mode
+
+    Args: 
+     - exampleMatrix: Matrix to initialize the board with
+
+    Return:
+     - No return Statements    
+    """
     pygame.init()
      
     # Set the width and height of the screen [width, height]
@@ -31,8 +41,11 @@ def runGameOfLife():
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
     #instantiate grid and camera
-    grid, camera = Grid(), Camera(Defaults.wWidth, Defaults.wHeight)
-     
+
+
+    
+    grid, camera = Grid(grid=exampleMatrix), Camera(Defaults.wWidth, Defaults.wHeight)
+
     # -------- Main Program Loop -----------
     while not done:
         # --- Main event loop (HANDLE USER INPUT)
