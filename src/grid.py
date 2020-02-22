@@ -90,6 +90,7 @@ class Grid():
     def __processCell(self, cX, cY) -> (int, bool, bool, bool, bool):
         """
         
+        Apply the rules to all cells.
         """
 
         #the value of the new cell
