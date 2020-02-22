@@ -23,14 +23,13 @@ class Grid():
     """
 
     def __init__(self):
-        self.currentSizeX = Defaults.defaultGridSize
-        self.currentSizeY = Defaults.defaultGridSize
+        self.currentSizeX = 7 #Defaults.defaultGridSize
+        self.currentSizeY = 19 #Defaults.defaultGridSize
         self.currentTime = 0
         self.grid = np.zeros((self.currentSizeX, self.currentSizeY), dtype=bool)
         self.fullRedrawRequired = False
         self.redrawRequired = False
-        self.cellsToUpdate = np.zeros(self.currentSizeX * self.currentSizeY)
-
+        self.cellsToUpdate = []
 
         # when board initialized do a full redraw
         self.fullRedraw()
@@ -42,8 +41,8 @@ class Grid():
         Calling this function often is computationally very expensive.
         """
 
+        self.cellsToUpdate = [(x, y) for y in range(self.currentSizeY) for x in range(self.currentSizeX)]
         self.fullRedrawRequired = True
-        self.cellsToUpdate.fill(1)
         self.redrawRequired = True
 
     def applyRules(self):
@@ -52,9 +51,9 @@ class Grid():
         """
 
         #if it is the initial board setup (timestep 0 --> 1) check if board should be resized
-        if(self.currentTime == 0):
-            self.grid = self.__resizeGrid(self.grid, True, True, True, True)
-            self.grid = self.__resizeGrid(self.grid, True, True, True, True)
+        #if(self.currentTime == 0):
+        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
+        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
 
         #copy current state
         futureGrid = deepcopy(self.grid)
@@ -65,9 +64,9 @@ class Grid():
         #single core calculations
         if(True):
             #iterate ove all cells
-            for cX in range(1, self.currentSizeX - 1):
+            for cX in range(0, self.currentSizeX):
                 #tmp sides 
-                for cY in range(1, self.currentSizeY - 1):
+                for cY in range(0, self.currentSizeY):
                     
                     newCell, _left, _top, _right, _bottom  = self.__processCell(cX, cY)
                     futureGrid[cX][cY] = newCell
@@ -80,7 +79,8 @@ class Grid():
 
         #resize if neccessary
         if(left or top or right or bottom):
-            futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
+            pass
+            #futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
 
         #copy the new grid to the old and increase the time
         self.grid = deepcopy(futureGrid)
@@ -98,8 +98,7 @@ class Grid():
         #check if this cell is near the border
         _left, _top, _right, _bottom = False, False, False, False
 
-        #only calculate the neighbors once
-        neighbors = self.grid[cX - 1 : cX + 2, cY - 1 : cY + 2].sum() - newCell
+        neighbors = self.__boundaryCondition(cX, cY) - newCell
 
         #apply the rules
         if(currentCell == 0):
@@ -129,9 +128,59 @@ class Grid():
         if newCell != self.grid[cX][cY] and \
             not self.fullRedrawRequired:
             self.redrawRequired = True
-            self.cellsToUpdate[cX + self.currentSizeY * cY] = 1
+            self.cellsToUpdate.append((cX, cY))
 
         return newCell, _left, _top, _right, _bottom
+
+    def __boundaryCondition(self, cX : int, cY : int):
+        """
+        Calculate the next cell value with the corresponding boundary condition.
+
+        Args:
+            cX : the x-position of the cell
+            cY : the y-position of the cell
+
+        Returns:
+            the value of all neighbors
+        """
+
+        ret = 0
+
+        if(Defaults.boundaryCondition == "absorbing"):
+            lMarginX, lMarginY, rMarginX, rMarginY = 1, 1, 2, 2
+            if(cX == 0):
+                lMarginX = 0
+            elif(cY == 0):
+                lMarginY = 0
+            if(cX == self.currentSizeX):
+                rMarginX = 1
+            elif(cY == self.currentSizeY):
+                rMarginY = 1
+                
+            ret = self.grid[cX - lMarginX: cX + rMarginX, cY - lMarginY : cY + rMarginY].sum()
+
+        elif(Defaults.boundaryCondition == "periodic"):
+            for x in range(cX - 1,cX + 2):
+                tmpX = x
+            if(x > self.currentSizeX):
+                tmpX = x - self.currentSizeX
+            if(x < 0):
+                tmpX = x + self.currentSizeX
+                for y in range(cY - 1,cY + 2):
+                    tmpY = y
+                    if(y > self.currentSizeY):
+                        tmpY = y - self.currentSizeY
+                    if(y < 0):
+                        tmpY = y + self.currentSizeY
+
+                    ret += self.grid[tmpX][tmpY]
+        #reflecting
+        else:
+            pass
+
+
+        return ret
+
 
 
     def __resizeGrid(self, grid : np.array, left : bool, top : bool, right : bool, bottom : bool) -> np.array:

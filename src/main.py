@@ -80,8 +80,8 @@ while not done:
     if(grid.currentTime == 0):
         # check that the cursor is not out of range
         # the absolute position of the mouse needs to be shifted by the amount the grid was moved
-        currentRelativeMouseX = pygame.mouse.get_pos()[1] - camera.pos[1]
-        currentRelativeMouseY = pygame.mouse.get_pos()[0] - camera.pos[0]
+        currentRelativeMouseX = pygame.mouse.get_pos()[0] - camera.pos[0]
+        currentRelativeMouseY = pygame.mouse.get_pos()[1] - camera.pos[1]
         # the position also needs to be shifted by the zoom factor (zoomed in/out)
         relCellHeight = Defaults.cellHeight + camera.currentZoom
         relCellWidth = Defaults.cellWidth + camera.currentZoom
@@ -90,14 +90,18 @@ while not done:
            0 <= currentRelativeMouseY // relCellHeight < grid.currentSizeY):
             #add alive cell(s) (if the left mouse button was clicked)
             if(pygame.mouse.get_pressed()[0] == True and pygame.mouse.get_pressed()[1] == False):
-                    grid.grid[currentRelativeMouseY // relCellHeight] \
-                            [currentRelativeMouseX // relCellWidth] = 1
-                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSizeX + currentRelativeMouseX // relCellWidth] = 1
+                    grid.grid[currentRelativeMouseX // relCellHeight] \
+                            [currentRelativeMouseY // relCellWidth] = 1
+                    x = currentRelativeMouseX // relCellWidth
+                    y = currentRelativeMouseY // relCellHeight
+                    grid.cellsToUpdate.append((x, y))
             #remove alive cell(s) (if the right mouse button was clicked)
             if(pygame.mouse.get_pressed()[2] == True and pygame.mouse.get_pressed()[0] == False):
-                    grid.grid[currentRelativeMouseY // relCellHeight] \
-                            [currentRelativeMouseX // relCellWidth] = 0
-                    grid.cellsToUpdate[currentRelativeMouseY // relCellHeight * grid.currentSizeX + currentRelativeMouseX // relCellWidth] = 1
+                    grid.grid[currentRelativeMouseX // relCellHeight] \
+                            [currentRelativeMouseY // relCellWidth] = 0
+                    x = currentRelativeMouseX // relCellWidth
+                    y = currentRelativeMouseY // relCellHeight
+                    grid.cellsToUpdate.append((x, y))
 
     #MENUBAR CONTROL
     if(pygame.mouse.get_pressed()[0] == True):
@@ -153,7 +157,7 @@ while not done:
     # --- Drawing code should go here
     if(grid.fullRedrawRequired):
         #Clear the screen
-        screen.fill(Defaults.BLACK)
+        screen.fill(Defaults.GREEN)
         #print(camera.pos)
         pygame.draw.rect(screen, Defaults.WHITE,
                     pygame.Rect(
@@ -164,8 +168,7 @@ while not done:
         grid.fullRedrawRequired = False
     #Draw the grid
     if(grid.redrawRequired):
-        for c, item in enumerate(grid.cellsToUpdate):
-            cell = (c % grid.currentSizeY, math.floor(c / grid.currentSizeX))
+        for cell in grid.cellsToUpdate:
             #draw dead cells
             if grid.grid[cell[0]][cell[1]] == 0:
                 screen.fill(Defaults.BLACK,
@@ -182,7 +185,7 @@ while not done:
                                 cell[1] * (Defaults.cellWidth + camera.currentZoom) + camera.pos[1],
                                 Defaults.cellHeight + camera.currentZoom,
                                 Defaults.cellWidth + camera.currentZoom))
-            grid.cellsToUpdate[c] = 0
+        grid.cellsToUpdate = []
 
     #draw a white rect for the menubar (draw over the grid if it is moved)
     DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,

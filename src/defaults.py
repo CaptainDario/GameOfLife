@@ -10,8 +10,11 @@ class Defaults():
     version = "v0.3.0"
     title = name + " " + version
 
+    #boundary conditions (reflecting | absorbing | periodic)
+    boundaryCondition  = "absorbing"
+
     #default grid size
-    defaultGridSize = 40
+    defaultGridSize = 20
 
     #grid-cell size
     cellHeight, cellWidth = 10, 10
