@@ -4,6 +4,10 @@ ModSim2019/2020 Projekt
 
 Mitglieder:
 * Louis Donath 798279
+<<<<<<< HEAD
+=======
+* Dario Klepoch 793525
+>>>>>>> master
 
 
 Eine Implementierung von Conway's "Game of Life".
@@ -23,7 +27,16 @@ Ziele:
     * bewegen (auf dem Raster hin und her bewegen): ✓
         * auf dem spielfeld hin- und her bewegen ✓
         * ~~unedliche Spielbrett Generierung (wenn Grenzen erreicht?)~~ (nur wenn objekte die Grenzen erreichen)
+<<<<<<< HEAD
  
+=======
+    * Randbedingungen:
+        * reflektierend
+        * absorbierend
+        * periodisch
+        * (erweiternd)
+
+>>>>>>> master
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
         * neues Spiel:   
