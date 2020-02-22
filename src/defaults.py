@@ -11,7 +11,7 @@ class Defaults():
     title = name + " " + version
 
     #default grid size
-    defaultGridSize = 30
+    defaultGridSize = 10
 
     #grid-cell size
     cellHeight, cellWidth = 10, 10
@@ -45,7 +45,9 @@ class Defaults():
     oneStepButtonTrianglePoints = [(oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 10),
                                 (oneStepButtonPos[0] + 30, oneStepButtonPos[1] + 20),
                                 (oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 30)]
+    menuButtonSize = defButtonSize
+    menuButtonPos = (40, menubarHeight / 4 + gridSize)
 
 
     #window 
-    wHeight, wWidth = gridSize, gridSize + menubarHeight
+    wHeight, wWidth = gridSize + menubarHeight, gridSize

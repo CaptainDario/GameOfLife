@@ -19,7 +19,7 @@ class Grid():
         cellsToUpdate      - all cells which need to be redrawn next frame
     """
 
-    def __init__(self,grid=None):
+    def __init__(self, grid=None):
         self.currentSize = Defaults.defaultGridSize
         self.currentTime = 0
 
