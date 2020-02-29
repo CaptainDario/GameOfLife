@@ -148,7 +148,6 @@ def runGameOfLife(matrix : [[]]) -> bool:
                pygame.mouse.get_pos()[0] <=
                Defaults.menuButtonPos[0] + Defaults.menuButtonSize):
                 pygame.display.quit()
-                pygame.quit()
                 return 1
         
         #set handled
@@ -221,7 +220,7 @@ def runGameOfLife(matrix : [[]]) -> bool:
         passedTime += 1
      
     # Close the window and quit.
-    pygame.quit()
+    pygame.display.quit()
 
 
 if __name__ == "__main__":

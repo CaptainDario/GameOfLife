@@ -100,7 +100,7 @@ def main(test=False) -> [[]]:
     """
 
 
-    global surface
+    global surface, matrixCreated
 
     pygame.init()
 
@@ -214,8 +214,7 @@ def main(test=False) -> [[]]:
 
         if(matrixCreated):
             pygame.display.quit()
-            #pygame.quit()
-            #sys.exit(0) 
+            matrixCreated = False
             return customMatrix
 
         events = pygame.event.get()
