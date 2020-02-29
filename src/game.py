@@ -18,6 +18,7 @@ def runGameOfLife(matrix : [[]]) -> bool:
     Return:
      - No return Statements    
     """
+
     pygame.init()
      
     # Set the width and height of the screen [width, height]
@@ -45,7 +46,7 @@ def runGameOfLife(matrix : [[]]) -> bool:
 
 
     
-    grid, camera = Grid(grid=matrix), Camera(Defaults.wWidth, Defaults.wHeight)
+    grid, camera = Grid(grid=np.array(matrix)), Camera(Defaults.wWidth, Defaults.wHeight)
 
     # -------- Main Program Loop -----------
     while not done:
