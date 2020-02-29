@@ -31,7 +31,6 @@ Ziele:
         * periodisch
         * (erweiternd)
 
->>>>>>> master
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
         * neues Spiel:   
