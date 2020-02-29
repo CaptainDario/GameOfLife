@@ -10,6 +10,9 @@ class Defaults():
     version = "v0.3.0"
     title = name + " " + version
 
+    #boundary conditions (reflecting | absorbing | periodic)
+    boundaryCondition  = "absorbing"
+
     #default grid size
     defaultGridSize = 10
 
@@ -18,7 +21,6 @@ class Defaults():
 
     #grid size
     gridSize = 100 * cellHeight#defaultGridSize * cellHeight
-
 
     #menubar
     menubarHeight = 80
