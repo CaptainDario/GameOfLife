@@ -22,11 +22,11 @@ class Grid():
         cellsToUpdate      - all cells which need to be redrawn next frame
     """
 
-    def __init__(self):
-        self.currentSizeX = 7 #Defaults.defaultGridSize
-        self.currentSizeY = 19 #Defaults.defaultGridSize
+    def __init__(self, grid):
+        self.currentSizeX = len(grid)
+        self.currentSizeY = len(grid[0])
         self.currentTime = 0
-        self.grid = grid
+        self.grid = np.array(grid, copy=True)
         self.fullRedrawRequired = False
         self.redrawRequired = False
         self.cellsToUpdate = []
