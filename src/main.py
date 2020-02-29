@@ -157,7 +157,7 @@ while not done:
     # --- Drawing code should go here
     if(grid.fullRedrawRequired):
         #Clear the screen
-        screen.fill(Defaults.GREEN)
+        screen.fill(Defaults.WHITE)
         #print(camera.pos)
         pygame.draw.rect(screen, Defaults.WHITE,
                     pygame.Rect(
