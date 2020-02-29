@@ -37,10 +37,10 @@ Ziele:
             * defaults (_interessante Beispiele_) ✓
             * eigenes board
             * zufaelliges board         ✓
-        * selber board erstellen:
+        * selber board erstellen:  ✓
             * Systemgroesse ✓
             * Randbedingungen ✓
-            * Anfangsbedingungen
+            * Anfangsbedingungen  ✓
             * ~~Regel-string~~
         * Tutorial:
             * Erklaerung der Tastenbelegungen
