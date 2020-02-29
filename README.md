@@ -49,7 +49,7 @@ Ziele:
         * neues Spiel button 
         * einen Schritt-weiter-button ✓
         * zoom in/out button ✓
-        * zurück zum Hauptmenü button
+        * zurück zum Hauptmenü button ✓
         * board speichern
  
 * Performance (_Geschwindigkeitsoptimierung_):
