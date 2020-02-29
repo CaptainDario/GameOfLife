@@ -6,17 +6,13 @@ import game
 
 def menuCycle():
     matrix = menu.main()
+    matrix = np.array(matrix)
     ret = game.runGameOfLife(matrix)
     return ret
 
 
 if __name__ == "__main__":
     
-    
-    matrix = menu.main()
-    matrix = np.array(matrix)
-    game.runGameOfLife(matrix)
-
-    #newCycle = True
-    #while(newCycle):
-    #    newCycle = menuCycle()
+    newCycle = True
+    while(newCycle):
+        newCycle = menuCycle()
