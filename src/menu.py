@@ -3,7 +3,9 @@ import pygame
 import pygameMenu
 import numpy as np
 import random
+import sys
 
+import IO
 from game import runGameOfLife
 from defaults import Defaults
 
@@ -31,18 +33,76 @@ for i in range(defaultGrid1.shape[0]):
     defaultGrid1[i][i] = 1
     defaultGrid1[i][defaultGrid1.shape[0]-i-1] = 1
 
-def change_boundaryCondition(value, boundaryCondition):
+
+customMatrixXSize = Defaults.defaultGridSize
+customMatrixYSize = Defaults.defaultGridSize
+customMatrixBoundaryCondition = "absorbing"
+
+customMatrix = None
+matrixCreated = False
+
+
+
+def set_X(val):
+    """
+    Sets the x size of a custom matrix.
+    """
+    
+    global customMatrixXSize 
+    customMatrixXSize = int(val)
+
+def set_Y(val):
+    """
+    Sets the x size of a custom matrix.
+    """
+
+    global customMatrixYSize 
+    customMatrixYSize = int(val)
+
+def change_boundaryCondition(value : (), boundaryCondition : str):
     """
     Changes boundary Conditions.
-    :param value: Tuple containing the data of the selected object
-    :type value: tuple
-    :param boundaryCondition: Optional parameter passed as argument to add_selector
-    :type boundaryCondition: basestring
-    :return: None
+
+    Args:
+        val : Tuple containing the data of the selected object
+        boundaryCondition : Optional parameter passed as argument to add_selector
     """
     selected, index = value
     print('Selected boundaryCondition: "{0}" ({1}) at index {2}'.format(selected, boundaryCondition, index))
     BOUNDARY_CONDITION[0] = boundaryCondition
+
+def createMatrix():
+    """
+    Create a matrix from the selected values.
+    """
+
+    global customMatrix
+    global matrixCreated
+
+    if(customMatrixXSize > 0 and customMatrixYSize > 0):
+        customMatrix = np.zeros((customMatrixXSize, customMatrixYSize))
+        matrixCreated = True
+
+def setLoadedMatrix(matrix : [[]]):
+    '''
+    '''
+
+    global customMatrix
+    global matrixCreated
+
+    if(matrix == None):
+        matrix = IO.loadGridWithFileBrowser()
+
+    customMatrix = matrix
+    
+def playLoadedMatrix():
+    '''
+    '''
+
+    global matrixCreated
+
+    matrixCreated = True
+
 
 def main_background():
     """
@@ -61,7 +121,7 @@ def main(test=False) -> [[]]:
     """
 
 
-    global surface
+    global surface, matrixCreated
 
     pygame.init()
 
@@ -128,32 +188,48 @@ def main(test=False) -> [[]]:
                                 window_height=WINDOW_SIZE[1],
                                 window_width=WINDOW_SIZE[0]
                                 )
+    options_menu = pygameMenu.Menu(surface,
+                                back_box=False,
+                                bgfun=main_background,
+                                color_selected=COLOR_SELECTED,
+                                font=pygameMenu.font.FONT_BEBAS,
+                                font_color=COLOR_UNSELECTED,
+                                font_size_title=32,
+                                font_size=28,
+                                menu_alpha=100,
+                                menu_color=MENU_BACKGROUND_COLOR,
+                                menu_color_title=MENU_HEADER_COLOR,
+                                menu_height=int(WINDOW_SIZE[1]),
+                                menu_width=int(WINDOW_SIZE[0]),
+                                onclose=pygameMenu.events.DISABLE_CLOSE,
+                                option_shadow=False,
+                                title='options',
+                                window_height=WINDOW_SIZE[1],
+                                window_width=WINDOW_SIZE[0]
+                                )
     
     #add main Menu Options
     main_menu.add_option('new   board', new_board_menu)
     main_menu.add_option('load   board', boards_menu)
+    main_menu.add_option('options', options_menu)
     main_menu.add_option('Quit', pygameMenu.events.EXIT)
 
-    #add load boards Menu Options
-    boards_menu.add_option('default   Example   1',runGameOfLife ,defaultGrid1)
-    boards_menu.add_option('default   Example   2', runGameOfLife, defaultGrid1)
-    boards_menu.add_option('Random   Board', runGameOfLife, randomGrid)
-    boards_menu.add_option('Back', pygameMenu.events.BACK)
-    
     #add new board Menu Options
-    new_board_menu.add_option('play', runGameOfLife, np.zeros((10, 10)))
+    new_board_menu.add_option('play', createMatrix)
     new_board_menu.add_text_input('x-size: ',
+                                 onchange=set_X,
                                  default=Defaults.defaultGridSize,
                                  maxchar=3,
                                  textinput_id='x_size',
                                  input_type=pygameMenu.locals.INPUT_INT,
-                                 enable_selection=False)
+                                 enable_selection=True)
     new_board_menu.add_text_input('y-size: ',
+                                 onchange=set_Y,
                                  default=Defaults.defaultGridSize,
                                  maxchar=3,
                                  textinput_id='y_size',
                                  input_type=pygameMenu.locals.INPUT_INT,
-                                 enable_selection=False)
+                                 enable_selection=True)
     new_board_menu.add_selector('boundaryCondition',
                            [('absorbing', 'ABSORBING'),
                             ('periodic', 'PERIODIC'),
@@ -163,6 +239,21 @@ def main(test=False) -> [[]]:
                            selector_id='select_boundaryCondition')
     new_board_menu.add_option('Back', pygameMenu.events.BACK)
 
+    #add load boards Menu Options
+    boards_menu.add_option('Play', playLoadedMatrix)
+    boards_menu.add_option('default   Example   1', setLoadedMatrix, defaultGrid1)
+    boards_menu.add_option('default   Example   2', setLoadedMatrix, defaultGrid1)
+    boards_menu.add_option('Random   Board', setLoadedMatrix, randomGrid)
+    boards_menu.add_option('Load   from   file', setLoadedMatrix, None)
+    boards_menu.add_option('Back', pygameMenu.events.BACK)
+    
+    options_menu.add_option('Back', pygameMenu.events.BACK)
+    options_menu.add_selector('Music', 
+                            [('Mini-Boss', 'Song1'),
+                            ('Infinity-awaits-us', 'Song2'),])
+
+
+
     # -------------------------------------------------------------------------
     # Main loop
     # -------------------------------------------------------------------------
@@ -171,15 +262,17 @@ def main(test=False) -> [[]]:
         # Paint background
         main_background()
 
-        # Application events
+        if(matrixCreated):
+            pygame.display.quit()
+            matrixCreated = False
+            return customMatrix
+
         events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.QUIT:
-                exit()
-                return -1
 
         # Main menu
         main_menu.mainloop(events, disable_loop=test)
+
+
 
 
 if __name__ == '__main__':

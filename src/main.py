@@ -6,6 +6,7 @@ import game
 
 def menuCycle():
     matrix = menu.main()
+    matrix = np.array(matrix)
     ret = game.runGameOfLife(matrix)
     return ret
 

@@ -26,7 +26,7 @@ Ziele:
         * ~~unedliche Spielbrett Generierung (wenn Grenzen erreicht?)~~ (nur wenn objekte die Grenzen erreichen)
     * Randbedingungen:
         * reflektierend
-        * absorbierend
+        * absorbierend ✓
         * periodisch
         * (erweiternd)
 
@@ -37,11 +37,11 @@ Ziele:
             * defaults (_interessante Beispiele_) ✓
             * eigenes board
             * zufaelliges board         ✓
-        * selber board erstellen:
-            * Systemgroesse
-            * Randbedingungen
-            * Anfangsbedingungen
-            * Regel-string
+        * selber board erstellen:  ✓
+            * Systemgroesse ✓
+            * Randbedingungen ✓
+            * Anfangsbedingungen  ✓
+            * ~~Regel-string~~
         * Tutorial:
             * Erklaerung der Tastenbelegungen
     * Menubar (_event gesteuerte Programmierung_):
@@ -49,7 +49,7 @@ Ziele:
         * neues Spiel button 
         * einen Schritt-weiter-button ✓
         * zoom in/out button ✓
-        * zurück zum Hauptmenü button
+        * zurück zum Hauptmenü button ✓
         * board speichern
  
 * Performance (_Geschwindigkeitsoptimierung_):
