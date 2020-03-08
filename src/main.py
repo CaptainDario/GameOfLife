@@ -5,9 +5,9 @@ import game
 
 
 def menuCycle():
-    matrix = menu.main()
+    matrix, boundaryCondition, music = menu.main()
     matrix = np.array(matrix)
-    ret = game.runGameOfLife(matrix)
+    ret = game.runGameOfLife(matrix, boundaryCondition, music)
     return ret
 
 
