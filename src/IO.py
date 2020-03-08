@@ -19,8 +19,10 @@ def loadGrid(path : str):
     '''
     '''
 
-    if(not os.path.isfile(path)):
+    if(type(path) is tuple or
+    not os.path.isfile(path)):
         print('Not a valid path!')
+        return None
 
     loadedGrid = np.load(path, allow_pickle=True)
     #print(file)
@@ -34,7 +36,7 @@ def openFileBrowser():
     root = tkinter.Tk()
     root.withdraw()
     selectedPath = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Game of Life files","*.npy"),("all files","*.*")))
-    #print(selectedPath)
+    print(selectedPath)
 
     return selectedPath
 
