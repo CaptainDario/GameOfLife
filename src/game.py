@@ -25,8 +25,8 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     #pygame.mixer.music.play()
 
     # Set the width and height of the screen [width, height]
-    size = (Defaults.wWidth, Defaults.wHeight)
-    screen = pygame.display.set_mode(size)
+    size = (Defaults.wWidth + 300, Defaults.wHeight + 100)
+    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
     screen.set_alpha(None)
 
     pygame.display.set_caption(Defaults.title)
@@ -73,6 +73,12 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                     grid.fullRedraw()
             if event.type == pygame.QUIT:
                 done = True
+
+            if event.type == pygame.VIDEORESIZE:
+                size = (event.w, event.h)
+                print(event.h, event.w)
+                screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+                grid.fullRedraw()
     
 
         # --- Game logic should go here
@@ -178,6 +184,8 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                 passedTime = 0
 
         # --- Drawing code should go here
+
+        #FULL REDRAW
         if(grid.fullRedrawRequired):
             #Clear the screen
             screen.fill(Defaults.WHITE)
@@ -210,9 +218,6 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                                     Defaults.cellWidth + camera.currentZoom))
             grid.cellsToUpdate = []
 
-        #draw a white rect for the menubar (draw over the grid if it is moved)
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,
-                                    Defaults.gridSize, Defaults.menubarHeight, 2)
         #Draw play/stop-button
         DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.stButtonPos[0], Defaults.stButtonPos[1],
                                             Defaults.stButtonSize, Defaults.stButtonSize, 2)
@@ -255,4 +260,4 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     pygame.quit()
 
 if __name__ == "__main__":
-    runGameOfLife(np.zeros((10, 10)))
+    runGameOfLife(np.zeros((50, 50)), "", "")
