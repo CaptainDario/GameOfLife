@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/dario/data/uni/5semester/modSim/tmpGameOfLife/gameOfLife/bin/python3",
+    "python.pythonPath": "/home/dario/anaconda3/envs/gameOfLife/bin/python",
     "cSpell.words": [
         "hstack",
         "numpy",

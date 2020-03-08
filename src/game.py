@@ -8,7 +8,7 @@ from drawUtil import DrawUtil
 from camera import Camera
 
 
-def runGameOfLife(matrix : [[]]) -> bool:
+def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bool:
     """
     Main function to start the Simulation Mode
 
@@ -20,7 +20,10 @@ def runGameOfLife(matrix : [[]]) -> bool:
     """
 
     pygame.init()
-    
+    #pygame.mixer.init()
+    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3")
+    #pygame.mixer.music.play()
+
     # Set the width and height of the screen [width, height]
     size = (Defaults.wWidth, Defaults.wHeight)
     screen = pygame.display.set_mode(size)
@@ -40,8 +43,8 @@ def runGameOfLife(matrix : [[]]) -> bool:
     isRunning = False
 
     #simulation speed
-    simulationSpeed = 15
-    speedSteps = 1
+    simulationSpeed = Defaults.simulationSpeed
+    speedSteps = Defaults.speedSteps
     #passed time
     passedTime = 0
 
@@ -49,7 +52,7 @@ def runGameOfLife(matrix : [[]]) -> bool:
     clock = pygame.time.Clock()
 
     #instantiate grid and camera
-    grid, camera = Grid(matrix), Camera(Defaults.wWidth, Defaults.wHeight)
+    grid, camera = Grid(matrix, boundaryCondition), Camera(Defaults.wWidth, Defaults.wHeight)
 
 
 

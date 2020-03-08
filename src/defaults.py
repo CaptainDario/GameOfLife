@@ -1,3 +1,7 @@
+import os
+
+
+
 class Defaults():
     # Define some colors
     BLACK = (0, 0, 0)
@@ -20,7 +24,7 @@ class Defaults():
     cellHeight, cellWidth = 10, 10
 
     #grid size
-    gridSize = 100 * cellHeight#defaultGridSize * cellHeight
+    gridSize = 50 * cellHeight#defaultGridSize * cellHeight
 
     #menubar
     menubarHeight = 80
@@ -53,3 +57,12 @@ class Defaults():
 
     #window 
     wHeight, wWidth = gridSize + menubarHeight, gridSize
+
+
+    #simulation
+    simulationSpeed = 180
+    speedSteps = 1
+
+    #music
+    musicFiles = os.listdir(os.path.join(os.getcwd(), "music"))
+    musicFileEnding = ".mp3"
