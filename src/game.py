@@ -1,6 +1,6 @@
 import pygame
 import numpy as np
-
+import os
 
 from defaults import Defaults
 from grid import Grid
@@ -20,9 +20,9 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     """
 
     pygame.init()
-    #pygame.mixer.init()
-    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3")
-    #pygame.mixer.music.play()
+    pygame.mixer.init()
+    pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))
+    pygame.mixer.music.play()
 
     # Set the width and height of the screen [width, height]
     size = (Defaults.wWidth + 300, Defaults.wHeight + 100)
