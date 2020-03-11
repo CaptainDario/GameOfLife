@@ -294,4 +294,5 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     pygame.quit()
 
 if __name__ == "__main__":
-    runGameOfLife(np.zeros((50, 50)), "", "")
+    testArr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    runGameOfLife(np.zeros((15, 15)), "periodic", "miniboss")
