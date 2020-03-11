@@ -1,6 +1,6 @@
 import pygame
 import numpy as np
-
+import os
 
 from defaults import Defaults
 from grid import Grid
@@ -21,12 +21,12 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
 
     pygame.init()
     #pygame.mixer.init()
-    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3")
+    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))
     #pygame.mixer.music.play()
 
     # Set the width and height of the screen [width, height]
     size = (Defaults.wWidth, Defaults.wHeight)
-    screen = pygame.display.set_mode(size)
+    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
     screen.set_alpha(None)
 
     pygame.display.set_caption(Defaults.title)
@@ -73,6 +73,12 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                     grid.fullRedraw()
             if event.type == pygame.QUIT:
                 done = True
+
+            if event.type == pygame.VIDEORESIZE:
+                size = (event.w, event.h)
+                print(event.w, event.h)
+                screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+                grid.fullRedraw()
     
 
         # --- Game logic should go here
@@ -118,51 +124,77 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                         y = currentRelativeMouseY // relCellHeight
                         grid.cellsToUpdate.append((x, y))
 
+        #Difference between original window size and actual window size
+        resizeValueX = (size[0] - Defaults.wWidth)/2
+        resizeValueY = (size[1] - Defaults.wHeight)
+        
+        #Button positions relative to window size
+        stButtonPos = list(Defaults.stButtonPos)
+        stButtonPos[1] += resizeValueY
+        stButtonPos[0] += resizeValueX
+
+        oneStepButtonPos = list(Defaults.oneStepButtonPos)
+        oneStepButtonPos[1] += resizeValueY
+        oneStepButtonPos[0] += resizeValueX
+
+        spUpButtonPos = list(Defaults.spUpButtonPos)
+        spUpButtonPos[1] += resizeValueY
+        spUpButtonPos[0] += resizeValueX
+
+        spDownButtonPos = list(Defaults.spDownButtonPos)
+        spDownButtonPos[1] += resizeValueY
+        spDownButtonPos[0] += resizeValueX
+
+        menuButtonPos = list(Defaults.menuButtonPos)
+        menuButtonPos[1] += resizeValueY
+        menuButtonPos[0] += resizeValueX
+
+
         #MENUBAR CONTROL
         if(pygame.mouse.get_pressed()[0] == True):
             if(handled == False):
                 #play/pause-button check y-pos and x-pos
-                if(Defaults.stButtonPos[1] <=
+                if(stButtonPos[1] <=
                 pygame.mouse.get_pos()[1] <=
-                Defaults.stButtonPos[1] + Defaults.stButtonSize and
-                Defaults.stButtonPos[0] <=
+                stButtonPos[1] + Defaults.stButtonSize and
+                stButtonPos[0] <=
                 pygame.mouse.get_pos()[0] <=
-                Defaults.stButtonPos[0] + Defaults.stButtonSize):
+                stButtonPos[0] + Defaults.stButtonSize):
                     isRunning = not isRunning
                 #one-step-button
-                if(Defaults.oneStepButtonPos[1] <=
+                if(oneStepButtonPos[1] <=
                 pygame.mouse.get_pos()[1] <=
-                Defaults.oneStepButtonPos[1] + Defaults.oneStepButtonSize and
-                Defaults.oneStepButtonPos[0] <=
+                oneStepButtonPos[1] + Defaults.oneStepButtonSize and
+                oneStepButtonPos[0] <=
                 pygame.mouse.get_pos()[0] <=
-                Defaults.oneStepButtonPos[0] + Defaults.oneStepButtonSize):
+                oneStepButtonPos[0] + Defaults.oneStepButtonSize):
                     if(isRunning == False):
                         grid.applyRules()
             #speed-up-button
-            if(Defaults.spUpButtonPos[1] <=
+            if(spUpButtonPos[1] <=
             pygame.mouse.get_pos()[1] <=
-            Defaults.spUpButtonPos[1] + Defaults.spUpButtonSize and
-            Defaults.spUpButtonPos[0] <=
+            spUpButtonPos[1] + Defaults.spUpButtonSize and
+            spUpButtonPos[0] <=
             pygame.mouse.get_pos()[0] <=
-            Defaults.spUpButtonPos[0] + Defaults.spUpButtonSize):
+            spUpButtonPos[0] + Defaults.spUpButtonSize):
                 
                 if(simulationSpeed - speedSteps > 0):
                     simulationSpeed -= speedSteps
             #speed-down-button
-            if(Defaults.spDownButtonPos[1] <=
+            if(spDownButtonPos[1] <=
             pygame.mouse.get_pos()[1] <=
-            Defaults.spDownButtonPos[1] + Defaults.spDownButtonSize and
-            Defaults.spDownButtonPos[0] <=
+            spDownButtonPos[1] + Defaults.spDownButtonSize and
+            spDownButtonPos[0] <=
             pygame.mouse.get_pos()[0] <=
-            Defaults.spDownButtonPos[0] + Defaults.spDownButtonSize):
+            spDownButtonPos[0] + Defaults.spDownButtonSize):
                 simulationSpeed += speedSteps
             #back-to-menu-button
-            if(Defaults.menuButtonPos[1] <=
+            if(menuButtonPos[1] <=
                pygame.mouse.get_pos()[1] <=
-               Defaults.menuButtonPos[1] + Defaults.menuButtonSize and
-               Defaults.menuButtonPos[0] <=
+               menuButtonPos[1] + Defaults.menuButtonSize and
+               menuButtonPos[0] <=
                pygame.mouse.get_pos()[0] <=
-               Defaults.menuButtonPos[0] + Defaults.menuButtonSize):
+               menuButtonPos[0] + Defaults.menuButtonSize):
                 pygame.display.quit()
                 return 1
         #set handled
@@ -178,6 +210,8 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                 passedTime = 0
 
         # --- Drawing code should go here
+
+        #FULL REDRAW
         if(grid.fullRedrawRequired):
             #Clear the screen
             screen.fill(Defaults.WHITE)
@@ -210,35 +244,40 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                                     Defaults.cellWidth + camera.currentZoom))
             grid.cellsToUpdate = []
 
-        #draw a white rect for the menubar (draw over the grid if it is moved)
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, 0, Defaults.gridSize,
-                                    Defaults.gridSize, Defaults.menubarHeight, 2)
+
+        
         #Draw play/stop-button
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.stButtonPos[0], Defaults.stButtonPos[1],
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, stButtonPos[0], stButtonPos[1],
                                             Defaults.stButtonSize, Defaults.stButtonSize, 2)
         #draw pause-square
         if(isRunning):
-            pygame.draw.rect(screen, Defaults.BLACK, ((Defaults.stButtonPos[0] + 10, Defaults.stButtonPos[1] + 10), (20, 20)))
+            pygame.draw.rect(screen, Defaults.BLACK, ((stButtonPos[0] + 10, stButtonPos[1]+ 10), (20, 20)))
         #draw running-arrow
         else:
-            pygame.draw.polygon(screen, Defaults.BLACK, Defaults.stButtonTrianglePoints)
+            stButtonTrianglePoints = [(stButtonPos[0] + 10, stButtonPos[1] + 10),
+                                      (stButtonPos[0] + 30, stButtonPos[1] + 20),
+                                      (stButtonPos[0] + 10, stButtonPos[1] + 30)]
+            pygame.draw.polygon(screen, Defaults.BLACK, stButtonTrianglePoints)
         #Draw speed-up-button
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.spUpButtonPos[0], Defaults.spUpButtonPos[1],
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, spUpButtonPos[0], spUpButtonPos[1],
                                     Defaults.spUpButtonSize, Defaults.spUpButtonSize, 2)
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, Defaults.spUpButtonPos[0] + 15, Defaults.spUpButtonPos[1] + 5,
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, spUpButtonPos[0] + 15, spUpButtonPos[1]+ 5,
                                     10, 30, 2)
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, Defaults.spUpButtonPos[0] + 5, Defaults.spUpButtonPos[1] + 15,
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, spUpButtonPos[0] + 5, spUpButtonPos[1]+ 15,
                                     30, 10, 2)
         #Draw speed-down-button
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.spDownButtonPos[0], Defaults.spDownButtonPos[1],
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, spDownButtonPos[0], spDownButtonPos[1],
                                     Defaults.spUpButtonSize, Defaults.spUpButtonSize, 2)
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, Defaults.spDownButtonPos[0] + 5, Defaults.spDownButtonPos[1] + 15,
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.BLACK, spDownButtonPos[0] + 5, spDownButtonPos[1] + 15,
                                     30, 10, 2)
         #draw the one-step-button
-        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, Defaults.oneStepButtonPos[0], Defaults.oneStepButtonPos[1],
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, oneStepButtonPos[0], oneStepButtonPos[1],
                                     Defaults.oneStepButtonSize, Defaults.oneStepButtonSize, 2)
-        pygame.draw.rect(screen, Defaults.BLACK, ((Defaults.oneStepButtonPos[0] + 10, Defaults.oneStepButtonPos[1] + 15), (10, 10)))
-        pygame.draw.polygon(screen, Defaults.BLACK, Defaults.oneStepButtonTrianglePoints)
+        pygame.draw.rect(screen, Defaults.BLACK, ((oneStepButtonPos[0] + 10, oneStepButtonPos[1] + 15), (10, 10)))
+        oneStepButtonTrianglePoints = [(oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 10),
+                                      (oneStepButtonPos[0] + 30, oneStepButtonPos[1] + 20),
+                                      (oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 30)]
+        pygame.draw.polygon(screen, Defaults.BLACK, oneStepButtonTrianglePoints)
 
 
         # --- Go ahead and update the screen with what we've drawn.
@@ -255,4 +294,4 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     pygame.quit()
 
 if __name__ == "__main__":
-    runGameOfLife(np.zeros((10, 10)))
+    runGameOfLife(np.zeros((50, 50)), "", "")
