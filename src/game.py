@@ -20,9 +20,9 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     """
 
     pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))
-    pygame.mixer.music.play()
+    #pygame.mixer.init()
+    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))
+    #pygame.mixer.music.play()
 
     # Set the width and height of the screen [width, height]
     size = (Defaults.wWidth, Defaults.wHeight)
@@ -125,8 +125,8 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                         grid.cellsToUpdate.append((x, y))
 
         #Difference between original window size and actual window size
-        resizeValueX = abs(Defaults.wWidth - size[0])/2
-        resizeValueY = abs(Defaults.wHeight - size[1])
+        resizeValueX = (size[0] - Defaults.wWidth)/2
+        resizeValueY = (size[1] - Defaults.wHeight)
         
         #Button positions relative to window size
         stButtonPos = list(Defaults.stButtonPos)
