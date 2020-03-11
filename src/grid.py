@@ -5,6 +5,7 @@ import numpy as np
 
 from copy import deepcopy
 from itertools import product
+from joblib import Parallel, delayed
 
 from defaults import Defaults
 
@@ -46,51 +47,28 @@ class Grid():
         self.fullRedrawRequired = True
         self.redrawRequired = True
 
+
+
+
+
     def applyRules(self):
         """
         Apply the rules to all cells.
         """
 
-        #if it is the initial board setup (timestep 0 --> 1) check if board should be resized
-        #if(self.currentTime == 0):
-        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
-        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
-
         #copy current state
         futureGrid = deepcopy(self.grid)
 
-        # sides which maybe need to be enlargened
-        left, top, right, bottom = False, False, False, False
-
-        #single core calculations
-        if(True):
-            #iterate ove all cells
-            for cX in range(0, self.currentSizeX):
-                #tmp sides 
-                for cY in range(0, self.currentSizeY):
-                    
-                    newCell, _left, _top, _right, _bottom  = self.__processCell(cX, cY)
-                    futureGrid[cX][cY] = newCell
-
-                    #remember that this side(s) need to be expanded
-                    left   = True if _left else left
-                    top    = True if _top else top
-                    right  = True if _right else right
-                    bottom = True if _bottom else bottom
-
-        #resize if neccessary
-        if(left or top or right or bottom):
-            pass
-            #futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
-
+        #iterate ove all cells
+        for cX in range(0, self.currentSizeX):
+            futureGrid[cX] = Parallel(n_jobs=-1)(delayed(self.__processCell)(cX, cY) for cY in range(self.currentSizeY))
+        
         #copy the new grid to the old and increase the time
         self.grid = deepcopy(futureGrid)
         self.currentTime += 1
 
-
-    def __processCell(self, cX, cY) -> (int, bool, bool, bool, bool):
+    def __processCell(self, cX, cY) -> (int):
         """
-        
         Apply the rules to all cells.
         """
 
@@ -132,7 +110,7 @@ class Grid():
             self.redrawRequired = True
             self.cellsToUpdate.append((cX, cY))
 
-        return newCell, _left, _top, _right, _bottom
+        return newCell#, _left, _top, _right, _bottom
 
     def __boundaryCondition(self, cX : int, cY : int):
         """
@@ -182,49 +160,6 @@ class Grid():
 
 
         return ret
-
-
-
-    def __resizeGrid(self, grid : np.array, left : bool, top : bool, right : bool, bottom : bool) -> np.array:
-        """
-        Resize the given grid on the given sides
-
-        Args:
-            grid   - the grid which should be resized
-            left   - if the left side should be made larger
-            top    - if the top side should be made larger
-            right  - if the right side should be made larger
-            bottom - if the bottom side should be made larger
-
-        Returns:
-            The resized grid 
-        """
-
-        #set the new size of the grid
-        self.currentSizeX += left + right
-        self.currentSizeY += top + bottom
-
-        if(left):
-            tmp = np.zeros((1, len(grid[0])))
-            grid = np.vstack((grid, tmp))
-        if(top):
-            tmp = [[0] for i in range(len(grid))]
-            grid = np.hstack((grid, tmp))
-        if(right):
-            tmp = np.zeros((1, len(grid[0])))
-            grid = np.vstack((tmp, grid))
-        if(bottom):
-            tmp = [[0] for i in range(len(grid))]
-            grid = np.hstack((tmp, grid))
-
-        #set the new gridsize
-        self.cellsToUpdate.resize(self.currentSizeX * self.currentSizeY, refcheck=False)
-
-        #grid got resize --> redraw whole grid
-        self.fullRedraw()
-
-        return grid
-
 
 
 

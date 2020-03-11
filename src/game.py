@@ -2,10 +2,15 @@ import pygame
 import numpy as np
 
 
+from multiprocessing import Process, Value
+from copy import deepcopy
 from defaults import Defaults
 from grid import Grid
 from drawUtil import DrawUtil
 from camera import Camera
+
+
+
 
 
 def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bool:
@@ -21,7 +26,7 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
 
     pygame.init()
     #pygame.mixer.init()
-    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3")
+    #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))
     #pygame.mixer.music.play()
 
     # Set the width and height of the screen [width, height]
@@ -52,6 +57,7 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     clock = pygame.time.Clock()
 
     #instantiate grid and camera
+    global grid
     grid, camera = Grid(matrix, boundaryCondition), Camera(Defaults.wWidth, Defaults.wHeight)
 
 
@@ -174,7 +180,25 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
         #update the game accordingly to the set speed
         if(isRunning):
             if(simulationSpeed - passedTime <= 0):
-                grid.applyRules()
+
+                #COMPUTE NEW ITERATION 
+                #copy current state
+                futureGrid = deepcopy(grid.grid)
+
+
+                v = Value('grid', np.zeros((200, 200)))
+                procs = [Process(target=processCell, args=(cX, v)) for cX in range(grid.currentSizeX)]
+
+                for p in procs: p.start()
+                for p in procs: p.join()
+
+                #iterate ove all cells
+                #futureGrid = Parallel(n_jobs=-1, prefer='processes')(delayed(processCell)(cX) for cX in range(grid.currentSizeX))
+                
+                #copy the new grid to the old and increase the time
+                grid.grid = np.array(futureGrid)
+                grid.currentTime += 1
+
                 passedTime = 0
 
         # --- Drawing code should go here
@@ -254,5 +278,106 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     # Close the window and quit.
     pygame.quit()
 
+def processCell(cX, grid) -> (int):
+    """
+    Apply the rules to all cells.
+    """
+
+
+    newRow = np.zeros((grid.currentSizeX))
+
+    for cY in range(0, grid.currentSizeY):
+        #the value of the new cell
+        currentCell, newCell = grid.grid[cX][cY], grid.grid[cX][cY]
+
+        #check if this cell is near the border
+        _left, _top, _right, _bottom = False, False, False, False
+
+        neighbors = boundaryCondition(cX, cY, grid) - newCell
+
+        #apply the rules
+        if(currentCell == 0):
+            if(neighbors == 3):
+                newCell = 1
+
+        if(currentCell == 1):
+            if(neighbors < 2):
+                newCell = 0
+            if(neighbors == 2 or neighbors == 3):
+                newCell = 1
+            if(neighbors > 3):
+                newCell = 0
+
+        if(newCell == 1):
+            if(cY <= 2):
+                _top = True
+            if(cY >= grid.currentSizeY - 2):
+                _bottom = True
+            if(cX <= 2):
+                _left = True
+            if(cX >= grid.currentSizeX - 2):
+                _right = True
+
+        #redraw a cell if its state has changed
+        #and a full redraw is not necessary 
+        if newCell != grid.grid[cX][cY] and \
+            not grid.fullRedrawRequired:
+            grid.redrawRequired = True
+            grid.cellsToUpdate.append((cX, cY))
+
+        newRow[cY] = newCell
+
+    return newRow#, _left, _top, _right, _bottom
+
+def boundaryCondition(cX : int, cY : int):
+    """
+    Calculate the next cell value with the corresponding boundary condition.
+
+    Args:
+        cX : the x-position of the cell
+        cY : the y-position of the cell
+
+    Returns:
+        the value of all neighbors
+    """
+
+
+    ret = 0
+
+    if(Defaults.boundaryCondition == "absorbing"):
+        lMarginX, lMarginY, rMarginX, rMarginY = 1, 1, 2, 2
+        if(cX == 0):
+            lMarginX = 0
+        if(cY == 0):
+            lMarginY = 0
+        if(cX == grid.currentSizeX):
+            rMarginX = 1
+        if(cY == grid.currentSizeY):
+            rMarginY = 1
+
+        ret = grid.grid[cX - lMarginX : cX + rMarginX, cY - lMarginY : cY + rMarginY].sum()
+
+    elif(Defaults.boundaryCondition == "periodic"):
+        for x in range(cX - 1,cX + 2):
+            tmpX = x
+        if(x > grid.currentSizeX):
+            tmpX = x - grid.currentSizeX
+        if(x < 0):
+            tmpX = x + grid.currentSizeX
+            for y in range(cY - 1,cY + 2):
+                tmpY = y
+                if(y > grid.currentSizeY):
+                    tmpY = y - grid.currentSizeY
+                if(y < 0):
+                    tmpY = y + grid.currentSizeY
+
+                ret += grid.grid[tmpX][tmpY]
+    #reflecting
+    else:
+        pass
+
+
+    return ret
+
 if __name__ == "__main__":
-    runGameOfLife(np.zeros((10, 10)))
+    runGameOfLife(np.zeros((200, 200)), "", "")

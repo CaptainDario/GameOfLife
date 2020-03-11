@@ -64,5 +64,5 @@ class Defaults():
     speedSteps = 1
 
     #music
-    musicFiles = os.listdir(os.path.join(os.getcwd(), "music"))
+    #musicFiles = os.listdir(os.path.join(os.getcwd(), "music"))
     musicFileEnding = ".mp3"
