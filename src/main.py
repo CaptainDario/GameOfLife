@@ -16,3 +16,5 @@ if __name__ == "__main__":
     newCycle = True
     while(newCycle):
         newCycle = menuCycle()
+
+        

@@ -3,6 +3,7 @@ import pygame
 import pygameMenu
 import numpy as np
 import random
+import sys
 
 import IO
 from game import runGameOfLife

@@ -39,18 +39,18 @@ class Defaults():
     # 2 - start/stop-button
     stButtonSize = defButtonSize
     stButtonPos = (buttonStartPosX + gapBetweenButtons * 1, menubarHeight / 4 + gridSize)
-    stButtonTrianglePoints = [(stButtonPos[0] + 10, stButtonPos[1] + 10),
-                            (stButtonPos[0] + 30, stButtonPos[1] + 20),
-                            (stButtonPos[0] + 10, stButtonPos[1] + 30)]
+    
     #3 - speed increase button
     spUpButtonSize = defButtonSize
     spUpButtonPos = (buttonStartPosX + gapBetweenButtons * 2, menubarHeight / 4 + gridSize)
     # 4 - one-simulation-step-button
     oneStepButtonSize = defButtonSize
     oneStepButtonPos = (buttonStartPosX + gapBetweenButtons * 3, menubarHeight / 4 + gridSize)
-    oneStepButtonTrianglePoints = [(oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 10),
-                                (oneStepButtonPos[0] + 30, oneStepButtonPos[1] + 20),
-                                (oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 30)]
+    
+    # 5 - Save grid Button
+    saveGridButtonSize = defButtonSize
+    saveGridButtonPos = (buttonStartPosX + gapBetweenButtons * 4, menubarHeight / 4 + gridSize)
+    
     menuButtonSize = defButtonSize
     menuButtonPos = (40, menubarHeight / 4 + gridSize)
 
