@@ -295,4 +295,4 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
 
 if __name__ == "__main__":
     testArr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-    runGameOfLife(np.zeros((15, 15)), "periodic", "miniboss")
+    runGameOfLife(np.zeros((15, 15)), "reflecting", "miniboss")

@@ -29,8 +29,9 @@ class Grid():
         self.grid = np.array(grid, copy=True)
 
         self.boundaryCondition = boundaryCondition
-        if(boundaryCondition == "periodic"):
-            self.updatePriodicGrid()
+        self.boundaryGrid = []
+        if(boundaryCondition == "periodic" or boundaryCondition == "reflecting"):
+            self.updateBoundaryGrid()
         self.fullRedrawRequired = False
         self.redrawRequired = False
         self.cellsToUpdate = []
@@ -38,15 +39,20 @@ class Grid():
         # when board initialized do a full redraw
         self.fullRedraw()
 
-    def updatePriodicGrid(self):
+    def updateBoundaryGrid(self):
         """
-        Updates the references of the periodic grid.
+        Updates the references of the boundary grid.
         """
 
-        self.periodicGrid = [[self.grid[::-1], self.grid, self.grid[::-1]],
-                            [self.grid, self.grid, self.grid],
-                            [self.grid[::-1], self.grid, self.grid[::-1]]]
+        if(self.boundaryCondition == "periodic"):
+            self.boundaryGrid = [[self.grid, self.grid, self.grid],
+                                [self.grid, self.grid, self.grid],
+                                [self.grid, self.grid, self.grid]]
 
+        if(self.boundaryCondition == "reflecting"):
+            self.boundaryGrid = [[self.grid[::-1][::-1], self.grid[::-1][::-1], self.grid[::-1][::-1]],
+                                [self.grid[::-1],        self.grid,          self.grid[::-1]],
+                                [self.grid[::-1][::-1],  self.grid[::-1][::-1], self.grid[::-1][::-1]]]
 
 
     def fullRedraw(self):
@@ -63,11 +69,6 @@ class Grid():
         """
         Apply the rules to all cells.
         """
-
-        #if it is the initial board setup (timestep 0 --> 1) check if board should be resized
-        #if(self.currentTime == 0):
-        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
-        #    self.grid = self.__resizeGrid(self.grid, True, True, True, True)
 
         #copy current state
         futureGrid = deepcopy(self.grid)
@@ -89,14 +90,9 @@ class Grid():
                 right  = True if _right else right
                 bottom = True if _bottom else bottom
 
-        #resize if neccessary
-        if(left or top or right or bottom):
-            pass
-            #futureGrid = self.__resizeGrid(futureGrid, left, top, right, bottom)
-
         #copy the new grid to the old and increase the time
         self.grid = deepcopy(futureGrid)
-        self.updatePriodicGrid()
+        self.updateBoundaryGrid()
         self.currentTime += 1
 
 
@@ -173,7 +169,7 @@ class Grid():
                 
             ret = self.grid[cX - lMarginX: cX + rMarginX, cY - lMarginY : cY + rMarginY].sum()
 
-        elif(self.boundaryCondition == "periodic"):
+        elif(self.boundaryCondition == "periodic" or self.boundaryCondition == "reflecting"):
             r"""
          0: 0----  1----  2----
             |123|  |123|  |123|
@@ -208,55 +204,43 @@ class Grid():
                 overT = 1
 
             #get square from base
-            ret += self.periodicGrid[1][1][cX-1+overL : cX+2-overR,
+            ret += self.boundaryGrid[1][1][cX-1+overL : cX+2-overR,
                                             cY-1+overT : cY+2-overB].sum()
 
             #get periodic squares
             #TOP
             if(overT and not overR and not overB and not overL):
-                ret += self.periodicGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
+                ret += self.boundaryGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
             #RIGHT
             if(overR and not overB and not overL and not overT):
-                ret += self.periodicGrid[1][2][0, cY-1 : cY+2].sum()
+                ret += self.boundaryGrid[1][2][0, cY-1 : cY+2].sum()
             #BOTTOM
             if(overB and not overL and not overT and not overR):
-                ret += self.periodicGrid[2][1][cX-1 : cX+2, 0].sum()
+                ret += self.boundaryGrid[2][1][cX-1 : cX+2, 0].sum()
             #LEFT
             if(overL and not overT and not overR and not overB):
-                ret += self.periodicGrid[1][0][len(self.grid) -1, cY-1 : cY+2].sum()
+                ret += self.boundaryGrid[1][0][len(self.grid) -1, cY-1 : cY+2].sum()
 
             #TOP and RIGHT
             if(overT and overR):
-                ret += self.periodicGrid[0][1][cX-1 : cX+1, len(self.grid[0]) - 1].sum()    #T
-                ret += self.periodicGrid[1][2][0, cY : cY+2].sum()                        #R
-                ret += self.periodicGrid[0][2][len(self.grid[0]) - 1, 0].sum()                 #C
+                ret += self.boundaryGrid[0][1][cX-1 : cX+1, len(self.grid[0]) - 1].sum()    #T
+                ret += self.boundaryGrid[1][2][0, cY : cY+2].sum()                        #R
+                ret += self.boundaryGrid[0][2][len(self.grid[0]) - 1, 0].sum()                 #C
             #RIGHT and BOTTOM
             if(overR and overB):
-                ret += self.periodicGrid[1][2][0, cY-1 : cY+2].sum()
-                ret += self.periodicGrid[2][1][cX-1 : cX+2, 0].sum()
-                ret += self.periodicGrid[0][2][0, 0].sum()
+                ret += self.boundaryGrid[1][2][0, cY-1 : cY+2].sum()
+                ret += self.boundaryGrid[2][1][cX-1 : cX+2, 0].sum()
+                ret += self.boundaryGrid[0][2][0, 0].sum()
             #BOTTOM and LEFT
             if(overB and overL):
-                ret += self.periodicGrid[2][1][cX : cX+2, 0].sum()
-                ret += self.periodicGrid[1][0][len(self.grid) -1, cY-1 : cY+1].sum()
-                ret += self.periodicGrid[0][2][0, len(self.grid) - 1].sum()
+                ret += self.boundaryGrid[2][1][cX : cX+2, 0].sum()
+                ret += self.boundaryGrid[1][0][len(self.grid) -1, cY-1 : cY+1].sum()
+                ret += self.boundaryGrid[0][2][0, len(self.grid) - 1].sum()
             #LEFT and TOP
             if(overL and overT):
-                ret += self.periodicGrid[1][0][len(self.grid) -1, cY-1 : cY+2].sum()
-                ret += self.periodicGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
-                ret += self.periodicGrid[0][2][len(self.grid) - 1, len(self.grid) - 1].sum()
-
-
-        #reflecting
-        else:
-            """
-            -----      -----
-            |123|      |321|
-            |456|  --> |654|
-            |789|      |987|
-            -----      -----
-            """
-            pass
+                ret += self.boundaryGrid[1][0][len(self.grid) -1, cY-1 : cY+2].sum()
+                ret += self.boundaryGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
+                ret += self.boundaryGrid[0][2][len(self.grid) - 1, len(self.grid) - 1].sum()
 
 
         return ret
