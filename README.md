@@ -13,7 +13,7 @@ Ziele:
 
 * Spiel:
     * Spielbrett: ✓
-        * Grid (unedliche Generieung, wenn die Objekte sich bewegen) ✓
+        * ~~Grid (unedliche Generieung, wenn die Objekte sich bewegen)~~
         * auswaelbarer Startkonfig ✓
     * Regeln (wikipedia): ✓
         * Eine tote Zelle mit genau drei lebenden Nachbarn wird in der Folgegeneration neu geboren. ✓
@@ -24,17 +24,17 @@ Ziele:
     * bewegen (auf dem Raster hin und her bewegen): ✓
         * auf dem spielfeld hin- und her bewegen ✓
         * ~~unedliche Spielbrett Generierung (wenn Grenzen erreicht?)~~ (nur wenn objekte die Grenzen erreichen)
-    * Randbedingungen:
-        * reflektierend
+    * Randbedingungen:✓
+        * reflektierend✓
         * absorbierend ✓
-        * periodisch
-        * (erweiternd)
+        * periodisch✓
+        * ~~(erweiternd)~~
 
 * UI (_grafische Benutzeroberflaeche_):
     * Main menu:
         * neues board:   ✓
-        * board laden:
-            * defaults (_interessante Beispiele_) ✓
+        * board laden:✓
+            * defaults (_interessante Beispiele_) 
             * eigenes board
             * zufaelliges board         ✓
         * selber board erstellen:  ✓
@@ -42,19 +42,17 @@ Ziele:
             * Randbedingungen ✓
             * Anfangsbedingungen  ✓
             * ~~Regel-string~~
-        * Tutorial:
-            * Erklaerung der Tastenbelegungen
-    * Menubar (_event gesteuerte Programmierung_):
+    * Menubar (_event gesteuerte Programmierung_):✓
         * play/pause ✓
-        * neues Spiel button 
+        * neues Spiel button ✓
         * einen Schritt-weiter-button ✓
         * zoom in/out button ✓
         * zurück zum Hauptmenü button ✓
-        * board speichern
+        * board speichern✓
  
 * Performance (_Geschwindigkeitsoptimierung_):
-    * Multithreaded Generationsberechnung
-    * grosse Bereiche in denen keine lebenden Zellen vorkommen ueberspringen
+    * ~~Multithreaded Generationsberechnung~~
+    * ~~grosse Bereiche in denen keine lebenden Zellen vorkommen ueberspringen~~
     * nur Zellen neu zeichnen welche auch veraendert wurden ✓
  
 * PyInstaller executable:
@@ -66,4 +64,4 @@ Ziele:
     * Demonstration mit interessanten Beispielen
     
 * optional:
-    * Hintergrundmusik (https://www.youtube.com/watch?v=sisGSwT2eN0)
+    * Hintergrundmusik (https://www.youtube.com/watch?v=sisGSwT2eN0)✓
