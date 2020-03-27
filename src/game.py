@@ -294,5 +294,11 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
     pygame.quit()
 
 if __name__ == "__main__":
-    testArr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-    runGameOfLife(np.zeros((15, 15)), "reflecting", "miniboss")
+    #example = np.eye(10)
+    #example[0][0] = 0
+    example = np.zeros((10, 10))
+
+    #condition = "reflecting"
+    condition = "periodic"
+
+    runGameOfLife(example, condition, "miniboss")

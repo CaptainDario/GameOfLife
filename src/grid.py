@@ -50,9 +50,15 @@ class Grid():
                                 [self.grid, self.grid, self.grid]]
 
         if(self.boundaryCondition == "reflecting"):
-            self.boundaryGrid = [[self.grid[::-1][::-1], self.grid[::-1][::-1], self.grid[::-1][::-1]],
+
+            bottom, top = [], []
+            for i in range(len(self.grid)):
+                bottom.append(self.grid[i][::-1])
+                top.append(self.grid[i][::-1])
+
+            self.boundaryGrid = [[self.grid[::-1][::-1], np.array(top), self.grid[::-1][::-1]],
                                 [self.grid[::-1],        self.grid,          self.grid[::-1]],
-                                [self.grid[::-1][::-1],  self.grid[::-1][::-1], self.grid[::-1][::-1]]]
+                                [self.grid[::-1][::-1],  np.array(bottom), self.grid[::-1][::-1]]]
 
 
     def fullRedraw(self):
@@ -206,8 +212,8 @@ class Grid():
             #get square from base
             ret += self.boundaryGrid[1][1][cX-1+overL : cX+2-overR,
                                             cY-1+overT : cY+2-overB].sum()
-
-            #get periodic squares
+            
+                
             #TOP
             if(overT and not overR and not overB and not overL):
                 ret += self.boundaryGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
@@ -223,9 +229,9 @@ class Grid():
 
             #TOP and RIGHT
             if(overT and overR):
-                ret += self.boundaryGrid[0][1][cX-1 : cX+1, len(self.grid[0]) - 1].sum()    #T
-                ret += self.boundaryGrid[1][2][0, cY : cY+2].sum()                        #R
-                ret += self.boundaryGrid[0][2][len(self.grid[0]) - 1, 0].sum()                 #C
+                ret += self.boundaryGrid[0][1][cX-1 : cX+1, len(self.grid[0]) - 1].sum()
+                ret += self.boundaryGrid[1][2][0, cY : cY+2].sum() 
+                ret += self.boundaryGrid[0][2][len(self.grid) - 1, 0].sum()
             #RIGHT and BOTTOM
             if(overR and overB):
                 ret += self.boundaryGrid[1][2][0, cY-1 : cY+2].sum()
@@ -233,14 +239,15 @@ class Grid():
                 ret += self.boundaryGrid[0][2][0, 0].sum()
             #BOTTOM and LEFT
             if(overB and overL):
-                ret += self.boundaryGrid[2][1][cX : cX+2, 0].sum()
+                ret += self.boundaryGrid[2][1][cX : cX+2][0].sum()
                 ret += self.boundaryGrid[1][0][len(self.grid) -1, cY-1 : cY+1].sum()
-                ret += self.boundaryGrid[0][2][0, len(self.grid) - 1].sum()
+                ret += self.boundaryGrid[0][2][0, len(self.grid[0]) - 1].sum()
             #LEFT and TOP
             if(overL and overT):
                 ret += self.boundaryGrid[1][0][len(self.grid) -1, cY-1 : cY+2].sum()
                 ret += self.boundaryGrid[0][1][cX-1 : cX+2, len(self.grid[0]) - 1].sum()
-                ret += self.boundaryGrid[0][2][len(self.grid) - 1, len(self.grid) - 1].sum()
+                ret += self.boundaryGrid[0][2][len(self.grid) - 1, len(self.grid[0]) - 1].sum()
+
 
 
         return ret
