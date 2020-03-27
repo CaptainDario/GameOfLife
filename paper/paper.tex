@@ -1,6 +1,6 @@
 %
 \documentclass[runningheads]{llncs}
-
+\usepackage[german]{babel}
 \usepackage{graphicx}
 \usepackage{url}
 
@@ -24,9 +24,10 @@ Hier kommt eine kurze Zusammenfassung des Projektes rein
 %
 
 \begin{section}{Einfuehrung}
+    `Conways game of life' 
 \end{section}
 
-\section{aasd}
+\section{Erklaerung unserer Implementierung}
     
 
 \begin{section}{Implementierung}
@@ -39,34 +40,58 @@ Hier kommt eine kurze Zusammenfassung des Projektes rein
 
     \subsection{Randbedingungen}
         In unserer Implementierung des GoL haben wir drei unterschiedliche Randbedingungen implementiert.
-        Eine Randbedingung sagt aus wie sich das Spiel verhaelt, wenn auf Zellen ausserhalb des Spielbrettes zugegriffen wird.
+        Eine Randbedingung sagt aus wie sich das Spiel verhält, wenn auf Zellen ausserhalb des Spielbrettes zugegriffen wird.
         
         \subsubsection{Absorbierende Randbedingung} bedeutet das jede Zelle die ausserhalb des Spielbrettes ist als tot angenommen wird.
         
-        \subsubsection{Periodische Randbedingungen}
+        \subsubsection{Periodische Randbedingungen} 
 
         \subsubsection{Reflektierende Randbedingungen}
 
-        \begin{table}
-            \centering
-            \caption{Spielbrett mit Kopien}
-            \label{boardMitSpiegelungen}
-            \begin{tabular}{ | c c c | c c c | c c c | }
-                \hline
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                \hline
-                1' & 2' & 3' & 1  & 2  & 3  & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1  & 2  & 3  & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1  & 2  & 3  & 1' & 2' & 3' \\
-                \hline
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
-                \hline
-            \end{tabular}
-        \end{table}
+        Wir haben die Randbedingungen implementiert wie man den Schemata in Tabelle \ref{randbedingungen} entnehmen kann.
+        Auf der linken Seite ist die periodische Randbedingung gezeigt und auf der rechten Seite die reflektierende.
+        In der Mitte ist das eigentlich Spielbrett mit den Zahlen $1..9$ dargestellt.
+        Darum herum sind (gespiegelte) Kopien des Spielbrettes gezeigt.
+        Die Zahlen $1'..9'$ symbolisieren Referenzen zu dem Spielbrett in der Mitte.
+        Daher wenn die Zelle 1 lebt, leben auch alle Zellen 1'.
+        Wenn sich nun eine Zelle auf den Rand zu bewegt wird sie bei der periodischen Randbedingung am Anfang des Spielbrettes neu erscheinen.
+
+
+            \begin{table}
+                \centering
+                \caption{Darstellung der Randbedingungen}
+                \label{randbedingungen}
+                \begin{tabular}{ | c c c | c c c | c c c | }
+                    \hline
+                    1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
+                    4' & 5' & 6' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    7' & 8' & 9' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    \hline
+                    1' & 2' & 3' & \textbf{1}  & \textbf{2}  & \textbf{3}  & 1' & 2' & 3' \\
+                    4' & 5' & 6' & \textbf{4}  & \textbf{5}  & \textbf{6}  & 4' & 5' & 6' \\
+                    1' & 2' & 3' & \textbf{7}  & \textbf{8}  & \textbf{9}  & 7' & 8' & 9' \\
+                    \hline
+                    1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
+                    4' & 5' & 6' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    7' & 8' & 9' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    \hline
+                \end{tabular}
+                \begin{tabular}{ | c c c | c c c | c c c | }
+                    \hline
+                    9' & 8' & 7' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    6' & 5' & 4' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    3' & 2' & 1' & 1' & 2' & 3' & 3' & 2' & 1' \\
+                    \hline
+                    3' & 2' & 1' & \textbf{1}  & \textbf{2}  & \textbf{3}  & 3' & 2' & 1' \\
+                    6' & 5' & 4' & \textbf{4}  & \textbf{5}  & \textbf{6}  & 6' & 5' & 4' \\
+                    9' & 8' & 7' & \textbf{7}  & \textbf{8}  & \textbf{9}  & 9' & 8' & 7' \\
+                    \hline
+                    9' & 8' & 7' & 7' & 8' & 9' & 9' & 8' & 7' \\
+                    6' & 5' & 4' & 4' & 5' & 6' & 6' & 5' & 4' \\
+                    3' & 2' & 1' & 1' & 2' & 3' & 3' & 2' & 1' \\
+                    \hline
+                \end{tabular}
+            \end{table}
 
     \subsection{Performance}
 
