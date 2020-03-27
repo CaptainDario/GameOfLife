@@ -28,9 +28,9 @@ class Grid():
         self.currentTime = 0
         self.grid = np.array(grid, copy=True)
 
-        self.boundaryCondition = boundaryCondition
+        self.boundaryCondition = boundaryCondition.lower()
         self.boundaryGrid = []
-        if(boundaryCondition == "periodic" or boundaryCondition == "reflecting"):
+        if(self.boundaryCondition == "periodic" or self.boundaryCondition == "reflecting"):
             self.updateBoundaryGrid()
         self.fullRedrawRequired = False
         self.redrawRequired = False
