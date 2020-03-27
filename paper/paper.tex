@@ -32,23 +32,27 @@ Hier kommt eine kurze Zusammenfassung des Projektes rein
 \begin{section}{Implementierung}
     
     Bei der Betrachtung der Implementierung werden wir ueber die Implementierung der Randbedingungen sprechen.
-    Und ueber einige Implementierungsentscheidungen die zugunsten der Performance getroffen worden sind. 
+    Weil wir mit unseren ersten Implementierung mit einer unzureichenden Performance hatten,
+    werden wir im zweiten Teil ueber Performanceverbesserungen sprechen.
+   
     
+
+    \subsection{Randbedingungen}
+        In unserer Implementierung des GoL haben wir drei unterschiedliche Randbedingungen implementiert.
+        Eine Randbedingung sagt aus wie sich das Spiel verhaelt, wenn auf Zellen ausserhalb des Spielbrettes zugegriffen wird.
+        
+        \subsubsection{Absorbierende} Randbedingung
+
     \subsection{Performance}
 
+    \subsubsection{Nachbarn ermitteln}
 
-    \begin{itemize}
-        \item Von python lists zu Numpy Arrays umgestiegen
-        \begin{itemize}
-            \item Nachbarn finden 
-            \item partielle Updates 
-        \end{itemize}
-        \item anstellen von 2 nur 1 Quadrat zeichnen
-    \end{itemize}
+    \subsubsection{Partielle Updates}
+        Nach der ersten Implementierung des GoL war die Performance 
 
-    \subsection{Numpyarray anstatt Pythonlist}
+    \subsubsection{Numpyarray anstatt Pythonlist}
+        Um die Zeit 
 
-    \subsection{Partielle Updates}
     
     \subsubsection{Weitere Performancesteigerung}
         sind durch sehr viele unterschiedliche Veraenderungen moeglich.
