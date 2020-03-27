@@ -1,36 +1,21 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
-% Version 2.20 of 2017/10/04
 %
 \documentclass[runningheads]{llncs}
-%
+
 \usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
-% If you use the hyperref package, please uncomment the following line
-% to display URLs in blue roman font according to Springer's eBook style:
-% \renewcommand\UrlFont{\color{blue}\rmfamily}
+\usepackage{url}
+
 
 \begin{document}
 %
 \title{Modellierung und Simulation 2019/2020 Conway's Game of Life}
-%
-%\titlerunning{Abbreviated paper title}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
-%
 \author{Louis Donath, Dario Klepoch}
 %
 \authorrunning{}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
 \institute{Potsdam University}
-%\email{\{abc,lncs\}@uni-heidelberg.de}}
-%
-\maketitle              % typeset the header of the contribution
-%
+
+
+\maketitle              
+
 \begin{abstract}
 Conway's Game of Life ist ein Automat...
 Hier kommt eine kurze Zusammenfassung des Projektes rein
@@ -39,33 +24,52 @@ Hier kommt eine kurze Zusammenfassung des Projektes rein
 %
 
 \begin{section}{Einfuehrung}
-\end{section
+\end{section}
 
-\begin{section}{Performance}
-    \begin{itemize
-    \item performance analysis 
+\section{aasd}
+    
+
+\begin{section}{Implementierung}
+    
+    Bei der Betrachtung der Implementierung werden wir ueber die Implementierung der Randbedingungen sprechen.
+    Und ueber einige Implementierungsentscheidungen die zugunsten der Performance getroffen worden sind. 
+    
+    \subsection{Performance}
+
+
+    \begin{itemize}
         \item Von python lists zu Numpy Arrays umgestiegen
         \begin{itemize}
             \item Nachbarn finden 
             \item partielle Updates 
         \end{itemize}
         \item anstellen von 2 nur 1 Quadrat zeichnen
-	\item (multithreading
     \end{itemize}
+    
+    \subsubsection{Weitere Performancesteigerung}
+        sind durch sehr viele unterschiedliche Veraenderungen moeglich.
+        Eine sehr grossen Performancesteigerung ist dadurch moeglich einen effizientere Datenstruktur als ein (numpy-)array zu verwenden.
+        In verschiedenen anderen Implementierungen des GoL wird hierfuer ein Quadtree benutzt.
+        Ein Quadtree wird meistens dafuer verwendet effizient 2-dimensionale Daten zu speichern \cite{quadtreeGeeksForGeeks}.
+        Da das GoL auch 2D-Daten sind ist es ein perfekter Anwendungsbereich fuer einen Quadtree.
+        Mit `Haslife' wurde das GoL auf diese Weise implementiert \cite{haslifeWiki}. \newline
+        Um die Performance noch weiter zu steigern ist es moeglich den Quadtree parallel aufzubauen.
+        Hier kann entweder die CPU oder auch die GPU benutzt werden.
+        In \cite{quadtreesOnGPU} wurden lineare Quadtrees verwendet um einen Quadtree vollstaendig auf der GPU aufzubauen.
+
 \end{section}
 
-% \bibliographystyle{splncs04}
-% \bibliography{mybibliography}
-%
+
 \begin{thebibliography}{8}
-\bibitem{ref_article1}
-Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
+\bibitem{quadtreeGeeksForGeeks}
+    \url{https://www.geeksforgeeks.org/quad-tree/}, letzter Zugriff: 27.3.2020
 
-\bibitem{ref_lncs1}
-Author, F., Author, S.: Title of a proceedings paper. In: Editor,
-F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
-Springer, Heidelberg (2016). \doi{10.10007/1234567890}
+\bibitem{haslifeWiki}
+    \url{https://en.wikipedia.org/wiki/Hashlife}, letzter Zugriff: 27.3.2020
 
+\bibitem{quadtreesOnGPU}
+    Dupuy, Jonathan \& Iehl, Jean-Claude \& Poulin, Pierre. (2018).
+    Quadtrees on the GPU. 10.1201/9781351052108-12. 
 
 \end{thebibliography}
 \end{document}
