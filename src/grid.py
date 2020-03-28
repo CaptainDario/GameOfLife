@@ -26,7 +26,7 @@ class Grid():
         self.currentSizeX = len(grid)
         self.currentSizeY = len(grid[0])
         self.currentTime = 0
-        self.grid = np.array(grid, copy=True)
+        self.grid = np.array(grid, dtype=bool)
 
         self.boundaryCondition = boundaryCondition.lower()
         self.boundaryGrid = []

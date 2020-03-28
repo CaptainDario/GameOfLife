@@ -1,6 +1,6 @@
 %
 \documentclass[runningheads]{llncs}
-
+\usepackage[german]{babel}
 \usepackage{graphicx}
 \usepackage{url}
 
@@ -24,31 +24,86 @@ Hier kommt eine kurze Zusammenfassung des Projektes rein
 %
 
 \begin{section}{Einfuehrung}
+    `Conways game of life' (im folgenden: GoL) 
 \end{section}
 
-\section{aasd}
+\section{Erklaerung unserer Implementierung}
     
 
 \begin{section}{Implementierung}
     
     Bei der Betrachtung der Implementierung werden wir ueber die Implementierung der Randbedingungen sprechen.
-    Und ueber einige Implementierungsentscheidungen die zugunsten der Performance getroffen worden sind. 
+    Weil wir mit unseren ersten Implementierung mit einer unzureichenden Performance hatten,
+    werden wir im zweiten Teil ueber Performanceverbesserungen sprechen.
+   
     
+
+    \subsection{Randbedingungen}
+        In unserer Implementierung des GoL haben wir drei unterschiedliche Randbedingungen implementiert.
+        Eine Randbedingung sagt aus wie sich das Spiel verhält, wenn auf Zellen ausserhalb des Spielbrettes zugegriffen wird. \newline
+        \textbf{Absorbierende Randbedingung} bedeutet das jede Zelle die ausserhalb des Spielbrettes ist als tot angenommen wird.\newline
+        Wir haben die \textbf{periodische} und \textbf{reflektierende Randbedingungen} implementiert wie man den Schemata in Tabelle \ref{randbedingungen} entnehmen kann.
+        Auf der linken Seite ist die periodische Randbedingung gezeigt und auf der rechten Seite die reflektierende.
+        In der Mitte ist das eigentlich Spielbrett mit den Zahlen $1..9$ dargestellt.
+        Darum herum sind (gespiegelte) Kopien des Spielbrettes gezeigt.
+        Die Zahlen $1'..9'$ symbolisieren Referenzen zu dem Spielbrett in der Mitte.
+        Daher wenn die Zelle 1 lebt, leben auch alle Zellen 1'.
+        Wenn sich nun eine Zelle auf den Rand zu bewegt wird sie bei der periodischen Randbedingung am Anfang des Spielbrettes neu erscheinen.
+        Bei der reflektierende hingegen in die gleiche Zelle gespiegelt.
+
+
+            \begin{table}
+                \centering
+                \caption{Darstellung der Randbedingungen}
+                \label{randbedingungen}
+                \begin{tabular}{ | c c c | c c c | c c c | }
+                    \hline
+                    1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
+                    4' & 5' & 6' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    7' & 8' & 9' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    \hline
+                    1' & 2' & 3' & \textbf{1}  & \textbf{2}  & \textbf{3}  & 1' & 2' & 3' \\
+                    4' & 5' & 6' & \textbf{4}  & \textbf{5}  & \textbf{6}  & 4' & 5' & 6' \\
+                    7' & 8' & 9' & \textbf{7}  & \textbf{8}  & \textbf{9}  & 7' & 8' & 9' \\
+                    \hline
+                    1' & 2' & 3' & 1' & 2' & 3' & 1' & 2' & 3' \\
+                    4' & 5' & 6' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    7' & 8' & 9' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    \hline
+                \end{tabular}
+                \begin{tabular}{ | c c c | c c c | c c c | }
+                    \hline
+                    9' & 8' & 7' & 7' & 8' & 9' & 7' & 8' & 9' \\
+                    6' & 5' & 4' & 4' & 5' & 6' & 4' & 5' & 6' \\
+                    3' & 2' & 1' & 1' & 2' & 3' & 3' & 2' & 1' \\
+                    \hline
+                    3' & 2' & 1' & \textbf{1}  & \textbf{2}  & \textbf{3}  & 3' & 2' & 1' \\
+                    6' & 5' & 4' & \textbf{4}  & \textbf{5}  & \textbf{6}  & 6' & 5' & 4' \\
+                    9' & 8' & 7' & \textbf{7}  & \textbf{8}  & \textbf{9}  & 9' & 8' & 7' \\
+                    \hline
+                    9' & 8' & 7' & 7' & 8' & 9' & 9' & 8' & 7' \\
+                    6' & 5' & 4' & 4' & 5' & 6' & 6' & 5' & 4' \\
+                    3' & 2' & 1' & 1' & 2' & 3' & 3' & 2' & 1' \\
+                    \hline
+                \end{tabular}
+            \end{table}
+
     \subsection{Performance}
 
+    \subsubsection{Nachbarn ermitteln}
 
-    \begin{itemize}
-        \item Von python lists zu Numpy Arrays umgestiegen
-        \begin{itemize}
-            \item Nachbarn finden 
-            \item partielle Updates 
-        \end{itemize}
-        \item anstellen von 2 nur 1 Quadrat zeichnen
-    \end{itemize}
+    \subsubsection{Partielle Updates}
+        Nach der ersten Implementierung des GoL war die Performance fuer groesserer Spielfelder nicht ausreichend.
+        Den grössten Einfluss dabei hatte das Zeichnen von den Zellen des Spiels.
+        Daher wird bei unsere Implementierung bei der Berechnung einer neuen Generation eine Liste erstellt mit den Zellen welche sich,
+        im Vergleich zur letzten Generation, verändert haben.
+        Nur die Zellen welche sich in dieser Liste befinden werden neu gezeichnet und alle anderen Zellen bleiben gleich.
 
-    \subsection{Numpyarray anstatt Pythonlist}
+    \subsubsection{Numpyarray anstatt Pythonlist}
+        Um die Performance noch weiter zu steigern wurde fuer die Representation des Spielbrettes ein Numpyarray anstelle eines Pythonarrays gewaehlt.
+        Ausserdem ist dieses Array ein Array von boolean. 
+        Daher wenn eine Zelle lebendig ist, ist der Wert True (1) sonst False (0).
 
-    \subsection{Partielle Updates}
     
     \subsubsection{Weitere Performancesteigerung}
         sind durch sehr viele unterschiedliche Veraenderungen moeglich.

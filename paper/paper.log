@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.3.24)  27 MAR 2020 17:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.3.24)  27 MAR 2020 20:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -127,7 +127,23 @@ LaTeX Font Info:    Redeclaring math symbol \Omega on input line 372.
 \c@solution=\count116
 \c@remark=\count117
 \headlineindent=\dimen124
-) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2019/10/15 3.35 The Babel package
+ (/usr/share/texmf-dist/tex/generic/babel/switch.def
+File: switch.def 2019/10/15 3.35 Babel switching mechanism
+) (/usr/share/texmf-dist/tex/generic/babel-german/german.ldf
+Language: german 2018/12/08 v2.11 German support for babel (pre-1996 orthography)
+ (/usr/share/texmf-dist/tex/generic/babel-german/germanb.ldf
+Language: germanb 2018/12/08 v2.11 German support for babel (pre-1996 orthography)
+ (/usr/share/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2019/10/15 3.35 Babel common definitions
+\babel@savecnt=\count118
+\U@D=\dimen125
+ (/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@dirlevel=\count119
+)
+Package babel Info: Making " an active character on input line 135.
+))) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
  (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
@@ -143,8 +159,8 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
  (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen125
-\Gin@req@width=\dimen126
+\Gin@req@height=\dimen126
+\Gin@req@width=\dimen127
 ) (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
@@ -165,16 +181,16 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count118
-\scratchdimen=\dimen127
+\scratchcounter=\count120
+\scratchdimen=\dimen128
 \scratchbox=\box55
-\nofMPsegments=\count119
-\nofMParguments=\count120
+\nofMPsegments=\count121
+\nofMParguments=\count122
 \everyMPshowfont=\toks19
-\MPscratchCnt=\count121
-\MPscratchDim=\dimen128
-\MPnumerator=\count122
-\makeMPintoPDFobject=\count123
+\MPscratchCnt=\count123
+\MPscratchDim=\dimen129
+\MPnumerator=\count124
+\makeMPintoPDFobject=\count125
 \everyMPtoPDFconversion=\toks20
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -217,25 +233,25 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 69.
+(Font)              <9> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 69.
+(Font)              <6> on input line 59.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (/home/dario/data/uni/5semester/modSim/tmpGameOfLife/paper/paper.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] (/home/dario/data/uni/5semester/modSim/tmpGameOfLife/paper/paper.aux) ) 
 Here is how much of TeX's memory you used:
- 1962 strings out of 492167
- 26877 string characters out of 6131558
- 101570 words of memory out of 5000000
- 6321 multiletter control sequences out of 15000+600000
+ 2611 strings out of 492167
+ 35627 string characters out of 6131558
+ 130906 words of memory out of 5000000
+ 6950 multiletter control sequences out of 15000+600000
  7456 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 46i,5n,30p,330b,333s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on /home/dario/data/uni/5semester/modSim/tmpGameOfLife/paper/paper.pdf (2 pages, 95552 bytes).
+ 46i,7n,30p,330b,392s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on /home/dario/data/uni/5semester/modSim/tmpGameOfLife/paper/paper.pdf (3 pages, 112015 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
+ 46 PDF objects out of 1000 (max. 8388607)
+ 32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
