@@ -298,6 +298,12 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
         myfont = pygame.font.SysFont('Sans Bold', 17)
         textsurface = myfont.render('SAVE', False, (0, 0, 0))
         screen.blit(textsurface,(saveGridButtonPos[0]+5,saveGridButtonPos[1]+15))
+        #Draw back-to-menu-button
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, menuButtonPos[0], menuButtonPos[1],
+                                           Defaults.menuButtonSize, Defaults.menuButtonSize, 2)
+        myfont = pygame.font.SysFont('Sans Bold', 17)
+        textsurface = myfont.render('MENU', False, (0, 0, 0))
+        screen.blit(textsurface,(menuButtonPos[0]+5,menuButtonPos[1]+15))
 
         # --- Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
