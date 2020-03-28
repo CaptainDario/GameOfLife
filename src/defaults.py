@@ -46,6 +46,9 @@ class Defaults():
     # 4 - one-simulation-step-button
     oneStepButtonSize = defButtonSize
     oneStepButtonPos = (buttonStartPosX + gapBetweenButtons * 3, menubarHeight / 4 + gridSize)
+    # 5 - Save grid Button
+    saveGridButtonSize = defButtonSize
+    saveGridButtonPos = (buttonStartPosX + gapBetweenButtons * 4, menubarHeight / 4 + gridSize)
     
     menuButtonSize = defButtonSize
     menuButtonPos = (40, menubarHeight / 4 + gridSize)
