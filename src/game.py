@@ -6,6 +6,7 @@ from defaults import Defaults
 from grid import Grid
 from drawUtil import DrawUtil
 from camera import Camera
+import IO
 
 
 def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bool:
@@ -150,6 +151,10 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
         menuButtonPos[1] += resizeValueY
         menuButtonPos[0] += resizeValueX
 
+        saveGridButtonPos = list(Defaults.saveGridButtonPos)
+        saveGridButtonPos[1] += resizeValueY
+        saveGridButtonPos[0] += resizeValueX
+
 
         #MENUBAR CONTROL
         if(pygame.mouse.get_pressed()[0] == True):
@@ -198,6 +203,15 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                menuButtonPos[0] + Defaults.menuButtonSize):
                 pygame.display.quit()
                 return 1
+            #save-grid-button
+            if(saveGridButtonPos[1] <=
+               pygame.mouse.get_pos()[1] <=
+               saveGridButtonPos[1] + Defaults.saveGridButtonSize and
+               saveGridButtonPos[0] <=
+               pygame.mouse.get_pos()[0] <=
+               saveGridButtonPos[0] + Defaults.saveGridButtonSize):  
+                    
+                    IO.saveGridWithFileBrowser(grid)
         #set handled
         if(pygame.mouse.get_pressed()[0] == True and not handled):
             handled = True
@@ -279,7 +293,18 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
                                       (oneStepButtonPos[0] + 30, oneStepButtonPos[1] + 20),
                                       (oneStepButtonPos[0] + 20, oneStepButtonPos[1] + 30)]
         pygame.draw.polygon(screen, Defaults.BLACK, oneStepButtonTrianglePoints)
-
+        #Draw save-grid-button
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, saveGridButtonPos[0], saveGridButtonPos[1],
+                                           Defaults.saveGridButtonSize, Defaults.saveGridButtonSize, 2)
+        myfont = pygame.font.SysFont('Sans Bold', 17)
+        textsurface = myfont.render('SAVE', False, (0, 0, 0))
+        screen.blit(textsurface,(saveGridButtonPos[0]+5,saveGridButtonPos[1]+15))
+        #Draw back-to-menu-button
+        DrawUtil.drawRectWithBorder(screen, Defaults.BLACK, Defaults.WHITE, menuButtonPos[0], menuButtonPos[1],
+                                           Defaults.menuButtonSize, Defaults.menuButtonSize, 2)
+        myfont = pygame.font.SysFont('Sans Bold', 17)
+        textsurface = myfont.render('MENU', False, (0, 0, 0))
+        screen.blit(textsurface,(menuButtonPos[0]+5,menuButtonPos[1]+15))
 
         # --- Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
