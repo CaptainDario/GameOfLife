@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Python\\Python38\\python.exe",
+    "python.pythonPath": "/home/dario/anaconda3/envs/gameOfLife/bin/python",
     "cSpell.words": [
         "hstack",
         "numpy",

@@ -37,12 +37,14 @@ def openFileBrowser(save = False, filename = None):
     root = tkinter.Tk()
     root.withdraw()
     if(save == False):
-        selectedPath = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Game of Life files","*.npy"),("all files","*.*")))
+        selectedPath = filedialog.askopenfilename(initialdir = "/",
+                                                    title = "Select file",
+                                                    filetypes = (("Game of Life files","*.npy"),("all files","*.*")))
         return selectedPath
     elif (save == True):
         if filename is None:
             filename = filedialog.asksaveasfilename(defaultextension=".npy")
-            print("Filename"+filename)
+            #print("Filename"+filename)
             #directory = os.path.split(filename)[0]
             return filename
 
