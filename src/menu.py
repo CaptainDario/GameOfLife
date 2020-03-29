@@ -103,7 +103,7 @@ def createMatrix(_random : bool):
         
         matrixCreated = True
 
-def setLoadedMatrix(matrix : [[]]):
+def setLoadedMatrix(matrix : [[]], loadExample=False):
     '''
     Set the selected matix or open a file browser so that the user can select a saved matrix.
     '''
@@ -112,7 +112,10 @@ def setLoadedMatrix(matrix : [[]]):
     global matrixCreated
 
     if(matrix is None):
-        matrix = IO.loadGridWithFileBrowser()
+        if(loadExample == False):
+            matrix = IO.loadGridWithFileBrowser()
+        elif(loadExample):
+            matrix = IO.loadGridWithFileBrowser(_initialdir="./examples")
         if(matrix is None):
             return
 
@@ -256,8 +259,7 @@ def main(test=True) -> [[]]:
     new_board_menu.add_option('Back', pygameMenu.events.BACK)
 
     #add load boards Menu Options
-    load_board_menu.add_option('default   Example   1', setLoadedMatrix, defaultGrid1)
-    load_board_menu.add_option('default   Example   2', setLoadedMatrix, defaultGrid1)
+    load_board_menu.add_option('Load   example', setLoadedMatrix, None, True)
     load_board_menu.add_option('Load   from   file', setLoadedMatrix, None)
     load_board_menu.add_selector('boundaryCondition',
                            [('absorbing', 'ABSORBING'),

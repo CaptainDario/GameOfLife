@@ -30,14 +30,15 @@ def loadGrid(path : str):
 
     return loadedGrid
 
-def openFileBrowser(save = False, filename = None):
+def openFileBrowser(save = False, filename = None, _initialdir:str="./"):
     '''
     '''
 
     root = tkinter.Tk()
     root.withdraw()
     if(save == False):
-        selectedPath = filedialog.askopenfilename(title = "Select file",
+        selectedPath = filedialog.askopenfilename(initialdir=_initialdir,
+                                                    title = "Select file",
                                                     filetypes = (("Game of Life files","*.npy"),("all files","*.*")))
         return selectedPath
     elif (save == True):
@@ -49,11 +50,11 @@ def openFileBrowser(save = False, filename = None):
 
 
 
-def loadGridWithFileBrowser() -> [[]]:
+def loadGridWithFileBrowser(_initialdir:str="./") -> [[]]:
     '''
     '''
 
-    filePath = openFileBrowser()
+    filePath = openFileBrowser(_initialdir=_initialdir)
     return loadGrid(filePath)
 
 def saveGridWithFileBrowser(grid : [[]]):
