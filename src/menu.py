@@ -4,6 +4,7 @@ import pygameMenu
 import numpy as np
 import random
 import sys
+import os
 
 import IO
 from game import runGameOfLife
@@ -109,7 +110,7 @@ def setLoadedMatrix(matrix : [[]], loadExample=False):
         if(loadExample == False):
             matrix = IO.loadGridWithFileBrowser()
         elif(loadExample):
-            matrix = IO.loadGridWithFileBrowser(_initialdir="./examples")
+            matrix = IO.loadGridWithFileBrowser(_initialdir=os.path.join(os.getcwd(), "examples"))
         if(matrix is None):
             return
 
