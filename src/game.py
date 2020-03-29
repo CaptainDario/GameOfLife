@@ -19,6 +19,7 @@ def runGameOfLife(matrix : [[]], boundaryCondition : str, musicName : str) -> bo
      - No return Statements    
     """
 
+
     pygame.init()
     #pygame.mixer.init()
     #pygame.mixer.music.load(os.path.join(os.getcwd(), "music", musicName + ".mp3"))

@@ -64,6 +64,9 @@ def change_boundaryCondition(value : (), boundaryCondition : str):
         val : Tuple containing the data of the selected object
         boundaryCondition : Optional parameter passed as argument to add_selector
     """
+
+    global selectedBoundaryCondition
+
     selected, index = value
     print('Selected boundaryCondition: "{0}" ({1}) at index {2}'.format(selected, boundaryCondition, index))
     selectedBoundaryCondition = boundaryCondition
@@ -247,8 +250,7 @@ def main(test=True) -> [[]]:
     new_board_menu.add_selector('boundaryCondition',
                            [('absorbing', 'ABSORBING'),
                             ('periodic', 'PERIODIC'),
-                            ('reflecting', 'REFLECTING'),
-                            ('expanding', 'EXPANDING')],
+                            ('reflecting', 'REFLECTING')],
                            onchange=change_boundaryCondition,
                            selector_id='select_boundaryCondition')
     new_board_menu.add_option('Back', pygameMenu.events.BACK)
