@@ -21,12 +21,6 @@ main_menu = None
 boards_menu = None
 surface = None
 
-defaultGrid1 = np.zeros((Defaults.defaultGridSize, Defaults.defaultGridSize))
-
-
-for i in range(defaultGrid1.shape[0]):
-    defaultGrid1[i][i] = 1
-    defaultGrid1[i][defaultGrid1.shape[0]-i-1] = 1
 
 customMatrixXSize = Defaults.defaultGridSize
 customMatrixYSize = Defaults.defaultGridSize
