@@ -60,6 +60,8 @@ def loadGridWithFileBrowser(_initialdir:str="./") -> [[]]:
 def saveGridWithFileBrowser(grid : [[]]):
     
       filename = openFileBrowser(True)
+      if(type(filename) == tuple):
+          return 0
       filepath = os.path.split(filename)[0]
       #print(filepath)
       saveGrid(grid,filepath, filename )
