@@ -23,7 +23,7 @@ There is an executable provided for windows users [here]()
 * pygame-menu==2.1.2
 * numpy
 
-Or just install from the requirements file.
+Or install from the requirements file and pygame manually.
 
 *Note:*
 Currently pygame has no package for python 3.9. Please use the preview package (--pre).
