@@ -11,7 +11,7 @@ class Defaults():
 
     #Game info
     name = "Game Of Life"
-    version = "v0.3.0"
+    version = "v1.0.0"
     title = name + " " + version
 
     #boundary conditions (reflecting | absorbing | periodic)
