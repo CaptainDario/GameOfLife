@@ -145,7 +145,7 @@ def main(test=True) -> [[]]:
 
     
     # Main menu
-    main_menu = pygameMenu.Menu(surface,
+    main_menu = pygameMenu.Menu(surface, 
                                 back_box=False,
                                 bgfun=main_background,
                                 color_selected=COLOR_SELECTED,
