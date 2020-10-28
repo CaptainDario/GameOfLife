@@ -14,7 +14,6 @@ def saveGrid(grid : [[]], path : str, filename: str):
     #print("path:",path)
     #print(filename)
     np.save(filename,grid.grid)
-    #tempfile.gettempdir(), 'gameOfLife', 
 
 def loadGrid(path : str):
     '''
@@ -45,7 +44,6 @@ def openFileBrowser(save = False, filename = None, _initialdir:str="./"):
         if filename is None:
             filename = filedialog.asksaveasfilename(defaultextension=".npy")
             #print("Filename"+filename)
-            #directory = os.path.split(filename)[0]
             return filename
 
 
@@ -70,6 +68,4 @@ def saveGridWithFileBrowser(grid : [[]]):
 
 
 if __name__ == "__main__":
-    #saveGrid(np.ones((10, 8), dtype=bool))
-    #loadGrid(os.path.join(tempfile.gettempdir(), 'gameOfLife', '1.npy'))
     loadGridWithFileBrowser()
