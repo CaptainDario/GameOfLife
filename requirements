@@ -3,7 +3,6 @@ isort==4.3.21
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
 numpy==1.18.1
-pygame==1.9.6
 pygame-menu==2.1.2
 pylint==2.4.4
 pyperclip==1.7.0
