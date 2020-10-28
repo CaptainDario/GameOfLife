@@ -18,7 +18,9 @@ This is a *graphical* python implementation of Conways Game of Life using pygame
 * background music
 
 ## Executables
-There is an executable provided for windows users [here]().
+There is an executable provided for windows users [here](https://github.com/CaptainDario/GameOfLife/releases).
+In the downloaded folder just run the "GameOfLife.exe"
+</br>
 Mac/Linux users have to run from source or can adapt the build script and generate an executable.
 
 ## Running from source
